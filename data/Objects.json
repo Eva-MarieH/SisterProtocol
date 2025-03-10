@@ -16,7 +16,7 @@
         "infos": {
             "force": 3,
             "prix": 25,
-            "zones": ["bleu", "vert"]
+            "zones": ["vert", "jaune"]
         }
     },
     {
@@ -26,7 +26,7 @@
         "infos": {
             "force": 5,
             "prix": 45,
-            "zones": ["vert", "jaune"]
+            "zones": ["jaune", "violet"]
         }
     },
     {
@@ -36,7 +36,7 @@
         "infos": {
             "force": 7,
             "prix": 60,
-            "zones": ["vert", "jaune"]
+            "zones": ["violet", "rouge"]
         }
     },
     {
@@ -54,8 +54,34 @@
         "name": "carte d'accès",
         "nbSlots": 1,
         "infos": {
-            "prix": 10,
             "zones": ["bleu", "vert"]
+        }
+    },
+    {
+        "id": 6,
+        "name": "canette de soda",
+        "nbSlots": 1,
+        "infos": {
+            "restauration": 10,
+            "zones": ["bleu","vert", "jaune","violet","rouge"]
+        }
+    },
+    {
+        "id": 7,
+        "name": "sandwich au poulet",
+        "nbSlots": 1,
+        "infos": {
+            "restauration": 25,
+            "zones": ["vert", "jaune","violet","rouge"]
+        }
+    },
+    {
+        "id": 8,
+        "name": "morphine",
+        "nbSlots": 1,
+        "infos": {
+            "restauration": 50,
+            "zones": ["violet","rouge"]
         }
     }
 ]
