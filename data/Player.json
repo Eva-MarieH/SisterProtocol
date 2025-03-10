@@ -1,0 +1,9 @@
+{
+    "name": "",
+    "vie": 100,
+    "force": 10,
+    "intelligence": 0,
+    "argent": 0,
+    "position": "bleu",
+    "maxSlots": 10
+}

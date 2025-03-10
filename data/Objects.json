@@ -1,0 +1,61 @@
+[
+    {
+        "id": 0,
+        "name": "upgrade T1",
+        "nbSlots": 3,
+        "infos": {
+            "force": 1,
+            "prix": 10,
+            "zones": ["bleu", "vert"]
+        }
+    },
+    {
+        "id": 1,
+        "name": "upgrade T2",
+        "nbSlots": 3,
+        "infos": {
+            "force": 3,
+            "prix": 25,
+            "zones": ["bleu", "vert"]
+        }
+    },
+    {
+        "id": 2,
+        "name": "upgrade T3",
+        "nbSlots": 3,
+        "infos": {
+            "force": 5,
+            "prix": 45,
+            "zones": ["vert", "jaune"]
+        }
+    },
+    {
+        "id": 3,
+        "name": "upgrade T4",
+        "nbSlots": 3,
+        "infos": {
+            "force": 7,
+            "prix": 60,
+            "zones": ["vert", "jaune"]
+        }
+    },
+    {
+        "id": 4,
+        "name": "upgrade T5",
+        "nbSlots": 5,
+        "infos": {
+            "force": 10,
+            "prix": 100,
+            "zones": ["rouge"]
+        }
+    },
+    {
+        "id": 5,
+        "name": "carte d'accès",
+        "nbSlots": 1,
+        "infos": {
+            "prix": 10,
+            "zones": ["bleu", "vert"]
+        }
+    }
+]
