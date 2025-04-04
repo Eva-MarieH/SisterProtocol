@@ -2,9 +2,18 @@ pub struct Inventaire {
     pub objets: Vec<Objet>,
 }
 
+pub enum TypeObjet {
+    Nourriture,
+    Amelioration,
+    CarteAcces,
+}
+
 pub struct Objet {
     pub nom: String,
-    pub taille: i32,
-    pub poids: i32,
-    pub valeur: i32,
+    pub effet: i32,
+    pub type_objet: TypeObjet,
+}
+
+pub struct Upgrade {
+    pub niveau: i32,
 }

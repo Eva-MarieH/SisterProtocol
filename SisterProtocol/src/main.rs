@@ -15,5 +15,5 @@ fn main() {
         amelioration: None,
     };
 
-    afficher_message("Bienvenue dans SisterProtocol!");
+    afficher_message("Bienvenue dans SisterProtocol.");
 }

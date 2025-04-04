@@ -5,4 +5,5 @@ pub mod combat;
 pub mod hacking;
 pub mod inventaire;
 pub mod entites;
-pub mod objectif;
+pub mod cachette;
+pub mod jeu;
