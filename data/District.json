@@ -46,6 +46,15 @@
         "residents": [0,1,2,3]
     },
     {
+        "color": "violet",
+        "hidingPlace": [
+            
+        ],
+        "enemies": [0,1,2,3,4,5],
+        "merchant": 1,
+        "residents": [0,1,2,3]
+    },
+    {
         "color": "rouge",
         "hidingPlace": [
             
