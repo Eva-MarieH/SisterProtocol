@@ -1,40 +1,27 @@
-use rand::seq::SliceRandom;
-use rand::thread_rng;
 use serde::Deserialize;
 use std::fs;
 use anyhow::{Result, Context};
 use std::collections::HashSet;
 use std::io::{self, Write};
+use rand::rng;
+use rand::seq::{IndexedMutRandom, SliceRandom};
 
 //
 // Mini-jeu Mastermind Binaire
 //
 
-#[derive(Debug, Deserialize)]
-struct BinaireDifficultySet {
-    difficulty: u8,
-    solutions: Vec<String>,
-}
-
-pub fn mastermind_binaire_difficulte() -> Result<()> {
+pub fn mastermind_binaire_random() -> Result<()> {
     let fichier = fs::read_to_string("assets/minigames/binaire.json")
         .context("Impossible de lire binaire.json")?;
-    let all_sets: Vec<BinaireDifficultySet> = serde_json::from_str(&fichier)
+    let mut all_solutions: Vec<&str> = serde_json::from_str(&fichier)
         .context("Format JSON invalide")?;
 
-    let difficulte = 0; // imposé
-    let entry = all_sets.iter()
-        .find(|set| set.difficulty == difficulte)
-        .context("Aucune solution pour difficulté 0")?;
-
-    let solution = entry
-        .solutions
-        .choose(&mut thread_rng())
+    let solution = all_solutions
+        .choose_mut(&mut rng())
         .context("Pas de solution disponible")?;
 
-    println!("[Mastermind Binaire - difficulté 0]");
-    mastermind_binaire(solution);
-
+    println!("[Mastermind Binaire]");
+    mastermind_binaire(&solution);
     Ok(())
 }
 
@@ -42,35 +29,20 @@ pub fn mastermind_binaire_difficulte() -> Result<()> {
 // Mini-jeu Mastermind Couleur
 //
 
-#[derive(Debug, Deserialize)]
-struct CouleurSet {
-    solutions: Vec<Vec<String>>,
-}
 
 pub fn mastermind_couleur_random() -> Result<()> {
     let content = fs::read_to_string("assets/minigames/couleur.json")
         .context("Impossible de lire couleur.json")?;
-    let parsed: Vec<CouleurSet> = serde_json::from_str(&content)
+    let mut all_solutions: Vec<&str> = serde_json::from_str(&content)
         .context("Format JSON invalide")?;
 
-    let all_solutions = &parsed[0].solutions;
-
     let solution = all_solutions
-        .choose(&mut thread_rng())
+        .choose_mut(&mut rng())
         .context("Pas de combinaison disponible")?;
 
-    // Déduire les couleurs possibles automatiquement
-    let mut set = HashSet::new();
-    for combo in all_solutions {
-        for couleur in combo {
-            set.insert(couleur.clone());
-        }
-    }
-    let possibles: Vec<&str> = set.iter().map(|s| s.as_str()).collect();
-    let solution_refs: Vec<&str> = solution.iter().map(|s| s.as_str()).collect();
 
     println!("[Mastermind Couleur]");
-    mastermind_couleur(&solution_refs, &possibles);
+    mastermind_couleur(&solution);
 
     Ok(())
 }
@@ -82,14 +54,13 @@ pub fn mastermind_couleur_random() -> Result<()> {
 pub fn pendu_random() -> Result<()> {
     let content = fs::read_to_string("assets/minigames/pendu.json")
         .context("Impossible de lire pendu.json")?;
-    let mots: Vec<String> = serde_json::from_str(&content)
+    let mut mots: Vec<String> = serde_json::from_str(&content)
         .context("Format JSON invalide")?;
 
     let mot = mots
-        .choose(&mut thread_rng())
+        .choose_mut(&mut rng())
         .context("Aucun mot disponible pour le pendu")?;
 
-    let essais = 6;
     println!("[Jeu du Pendu] Le mot contient {} lettres", mot.len());
     pendu(mot);
 
@@ -102,7 +73,7 @@ pub fn pendu_random() -> Result<()> {
 
 pub fn lancer_mini_jeu(nom: &str) -> Result<()> {
     match nom {
-        "binaire" => mastermind_binaire_difficulte()?,
+        "binaire" => mastermind_binaire_random()?,
         "couleur" => mastermind_couleur_random()?,
         "pendu" => pendu_random()?,
         _ => println!("Mini-jeu inconnu : {}", nom),
@@ -110,7 +81,7 @@ pub fn lancer_mini_jeu(nom: &str) -> Result<()> {
     Ok(())
 }
 
-// Les fonctions ci-dessous doivent être définies quelque part :
+// --- Implémentations des jeux ---
 
 fn mastermind_binaire(solution: &str) {
     let len = solution.len();
@@ -150,13 +121,12 @@ fn mastermind_binaire(solution: &str) {
     println!("💀 Perdu ! La solution était : {}", solution);
 }
 
-fn mastermind_couleur(solution: &[&str], possibles: &[&str]) {
+fn mastermind_couleur(solution: &str) {
     let len = solution.len();
     let mut tentative = String::new();
     let mut essais = 10;
 
     println!("Devine la combinaison de {} couleur(s) (max {} essais)", len, essais);
-    println!("Couleurs possibles : {}", possibles.join(", "));
 
     while essais > 0 {
         print!("({} restant) > ", essais);
@@ -166,12 +136,12 @@ fn mastermind_couleur(solution: &[&str], possibles: &[&str]) {
 
         let guess: Vec<&str> = tentative.trim().split_whitespace().collect();
 
-        if guess.len() != len || !guess.iter().all(|c| possibles.contains(c)) {
-            println!("⛔ Entrée invalide. Utilise exactement {} couleurs parmi : {}", len, possibles.join(", "));
+        if guess.len() != 2 {
+            println!("⛔ Entrée invalide");
             continue;
         }
 
-        let exact = solution.iter().zip(&guess).filter(|(a, b)| a == b).count();
+        let exact = solution.chars().zip(guess).filter(|(a, b)| a.to_string() == *b).count();
         if exact == len {
             println!("🎉 Bravo ! La combinaison était : {:?}", solution);
             return;
@@ -185,8 +155,7 @@ fn mastermind_couleur(solution: &[&str], possibles: &[&str]) {
     println!("💀 Perdu. La solution était : {:?}", solution);
 }
 
-
-fn pendu(mot: &str,) {
+fn pendu(mot: &str) {
     let mut essais = 10;
     let mut trouve = vec!['_'; mot.len()];
     let mut lettres_proposees = vec![];

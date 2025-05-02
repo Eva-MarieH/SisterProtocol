@@ -1,6 +1,7 @@
 use crate::classes::jeu::Jeu;
 use crate::classes::quartier::Quartier;
 use crate::classes::personnage::Hero;
+use crate::classes::inventaire::{Objet, Inventaire, TypeObjet};
 
 pub struct Affichage;
 
@@ -45,5 +46,23 @@ impl Affichage {
         println!("Argent: {}", hero.argent);
         println!("Position: {}", hero.position);
         println!("Inventaire: {} objets", hero.inventaire.objets.len());
+    }
+
+    // Fonction pour afficher les objets de l'inventaire
+    pub fn afficher_inventaire(inventaire: &Inventaire) {
+        println!("[Inventaire]");
+        for objet in &inventaire.objets {
+            match objet.type_objet {
+                TypeObjet::Nourriture => {
+                    println!("Nom: {}, Effet: {}, Type: Nourriture", objet.nom, objet.effet);
+                }
+                TypeObjet::Amelioration => {
+                    println!("Nom: {}, Effet: {}, Type: Amélioration", objet.nom, objet.effet);
+                }
+                TypeObjet::CarteAcces => {
+                    println!("Nom: {}, Effet: {}, Type: Carte d'accès", objet.nom, objet.effet);
+                }
+            }
+        }
     }
 }

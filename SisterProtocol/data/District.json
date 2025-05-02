@@ -1,0 +1,74 @@
+[
+    {
+        "color": "bleu",
+        "hidingPlace": [
+            {
+                "name": "maison carrée",
+                "money": 10,
+                "loot": [
+                    {
+                        "id": 0,
+                        "quantity": 1
+                    }
+                ]
+            },
+            {
+                "name": "arbre mort",
+                "money": 2,
+                "loot": [
+                    {
+                        "id": 5,
+                        "quantity": 2
+                    }
+                ]
+            }
+        ],
+        "enemies": [0,1,2],
+        "merchant": 0,
+        "residents": [0,1,2,3],
+        "pc": [0,1,2,3],
+        "server": 0
+    },
+    {
+        "color": "vert",
+        "hidingPlace": [
+            
+        ],
+        "enemies": [3,4,5],
+        "merchant": 1,
+        "residents": [4,5,6,7],
+        "pc": [4,5,6,7],
+        "server": 1
+    },
+    {
+        "color": "jaune",
+        "hidingPlace": [
+            
+        ],
+        "enemies": [6,7,8],
+        "merchant": 2,
+        "residents": [8,9,10,11],
+        "pc": [8,9,10,11],
+        "server": 2
+    },
+    {
+        "color": "violet",
+        "hidingPlace": [
+            
+        ],
+        "enemies": [9,10,11],
+        "merchant": 3,
+        "residents": [12,13,14,15],
+        "pc": [12,13,14],
+        "server": 3
+    },
+    {
+        "color": "rouge",
+        "hidingPlace": [
+            
+        ],
+        "enemies": [12,13,14],
+        "merchant": 4,
+        "residents": [15,16,17],
+    }
+]
