@@ -36,6 +36,11 @@ pub struct Marchand {
 pub struct PNJ {
     pub id: u8,
     pub nom: String,
+    pub dialogue: Vec<Dialogue>,
+}
+
+pub struct Dialogue {
+    pub contexte: String,
     pub message: String,
 }
 

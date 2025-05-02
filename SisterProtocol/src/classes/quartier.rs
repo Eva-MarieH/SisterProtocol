@@ -10,4 +10,5 @@ pub struct Quartier {
     pub boss: Option<Boss>,
     pub marchand: Marchand,
     pub pnjs: Vec<PNJ>,
+    pub unlocked: bool,
 }

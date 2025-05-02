@@ -7,6 +7,7 @@ pub struct Affichage;
 impl Affichage {
     pub fn afficher_message(message: &str) {
         println!("{}", message);
+        // ajouter couleur en fonction de la couleur du quartier
     }
     
     pub fn afficher_jeu(jeu: &Jeu) {
@@ -14,6 +15,7 @@ impl Affichage {
         for quartier in &jeu.quartiers {
             println!("- Quartier: {}", quartier.couleur);
         }
+        println!("- Héro: {}", jeu.hero.nom);
     }
     
     pub fn afficher_quartier(quartier: &Quartier) {
@@ -31,6 +33,7 @@ impl Affichage {
         }
         println!("Marchands: Présent");
         println!("PNJs: {}", quartier.pnjs.len());
+        println!("Unlocked: {}", quartier.unlocked);
     }
     
     pub fn afficher_hero(hero: &Hero) {

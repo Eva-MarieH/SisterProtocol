@@ -19,4 +19,6 @@ fn main() {
     Affichage::afficher_message("Bienvenue dans SisterProtocol.");
     Affichage::afficher_message("Voici tes statistiques:");
     Affichage::afficher_hero(&hero);
+
+    // boucle des choix possibles
 }
