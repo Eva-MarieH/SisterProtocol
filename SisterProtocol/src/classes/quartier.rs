@@ -1,14 +1,13 @@
 use crate::classes::cachette::Cachette;
-use crate::classes::entites::{Garde, Ordinateur, Serveur, Marchand, PNJ};
-use crate::classes::boss::Boss;
+use crate::classes::entites::{Ordinateur, Serveur};
+use crate::classes::personnage::{Garde, Marchand, PNJ, Boss};
 
 pub struct Quartier {
     pub couleur: String,
-    pub cachettes: Vec<Cachette>,
     pub gardes: Vec<Garde>,
-    pub ordinateurs: Vec<Ordinateur>,
-    pub serveur: Serveur,
+    pub ordinateurs: Option<Vec<Ordinateur>>,
+    pub serveur: Option<Serveur>,
     pub boss: Option<Boss>,
-    pub marchands: Vec<Marchand>,
+    pub marchand: Marchand,
     pub pnjs: Vec<PNJ>,
 }

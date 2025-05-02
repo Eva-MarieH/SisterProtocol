@@ -9,6 +9,7 @@ pub enum TypeObjet {
 }
 
 pub struct Objet {
+    pub id: u8,
     pub nom: String,
     pub effet: i32,
     pub type_objet: TypeObjet,

@@ -1,11 +1,12 @@
 mod classes;
 mod utils;
+use crate::utils::affichage::Affichage;
 
 fn main() {
     use classes::personnage::Hero;
-    use utils::afficher_message;
 
     let mut hero = Hero {
+        nom: String::from("John Doe"),
         vie: 100,
         force: 10,
         intelligence: 15,
@@ -15,5 +16,7 @@ fn main() {
         amelioration: None,
     };
 
-    afficher_message("Bienvenue dans SisterProtocol.");
+    Affichage::afficher_message("Bienvenue dans SisterProtocol.");
+    Affichage::afficher_message("Voici tes statistiques:");
+    Affichage::afficher_hero(&hero);
 }

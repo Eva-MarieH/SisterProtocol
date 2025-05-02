@@ -18,19 +18,24 @@ impl Affichage {
     
     pub fn afficher_quartier(quartier: &Quartier) {
         println!("\n=== Quartier: {} ===", quartier.couleur);
-        println!("Cachettes: {}", quartier.cachettes.len());
         println!("Gardes: {}", quartier.gardes.len());
-        println!("Ordinateurs: {}", quartier.ordinateurs.len());
-        println!("Serveur: Présent");
+        match &quartier.ordinateurs {
+            Some(ordinateurs) => println!("Ordinateurs: {}", ordinateurs.len()),
+            None => println!("Ordinateurs: 0"),
+        }
+        if quartier.serveur.is_some() {
+            println!("Serveur: Présent");
+        }
         if quartier.boss.is_some() {
             println!("Boss: Présent");
         }
-        println!("Marchands: {}", quartier.marchands.len());
+        println!("Marchands: Présent");
         println!("PNJs: {}", quartier.pnjs.len());
     }
     
     pub fn afficher_hero(hero: &Hero) {
         println!("\n=== Héro ===");
+        println!("Nom: {}", hero.nom);
         println!("Vie: {}", hero.vie);
         println!("Force: {}", hero.force);
         println!("Intelligence: {}", hero.intelligence);
