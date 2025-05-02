@@ -61,26 +61,6 @@
                     "name": "GigaTank",
                     "id": 11,
                     "force": 50
-                },
-                {
-                    "name": "Riot-9",
-                    "id": 12,
-                    "force": 44
-                },
-                {
-                    "name": "Synth Guardian",
-                    "id": 13,
-                    "force": 29
-                },
-                {
-                    "name": "Omega Bouncer",
-                    "id": 14,
-                    "force": 47
-                },
-                {
-                    "name": "Firewall Knight",
-                    "id": 15,
-                    "force": 55
                 }
             ]
         },
