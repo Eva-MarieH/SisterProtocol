@@ -13,4 +13,9 @@ pub struct Objet {
     pub nom: String,
     pub effet: i32,
     pub type_objet: TypeObjet,
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 63e707aa6aa897068c5df3f9e24d66c5371d239a
