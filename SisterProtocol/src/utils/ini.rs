@@ -1,21 +1,12 @@
 use std::fs::{self, File};
 use std::io::BufReader;
 use std::path::Path;
-<<<<<<< HEAD
-use serde_json::Result;
-use anyhow::Context;
+use anyhow::{Context, Result};
 
 use crate::classes::quartier::Quartier;
-use crate::classes::personnage::{Hero, Marchand, Resident};
+use crate::classes::personnage::{Hero, Resident, Marchand};
+use crate::classes::inventaire::Objet;
 use crate::classes::jeu::Jeu;
-use crate::classes::inventaire::{Objet, Inventaire};
-=======
-use anyhow::Result;
-
-use crate::classes::quartier::Quartier;
-use crate::classes::personnage::Hero;
-use crate::classes::jeu::Jeu;
->>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
 
 fn copier_dossier_data() -> std::io::Result<()> {
     let source = Path::new("assets/data");
@@ -39,7 +30,6 @@ fn copier_dossier_data() -> std::io::Result<()> {
     Ok(())
 }
 
-<<<<<<< HEAD
 /// Charge les objets
 pub fn charger_objets() -> Result<Vec<Objet>> {
     let contenu = fs::read_to_string("saves/Objects.json")
@@ -54,32 +44,22 @@ pub fn charger_objets() -> Result<Vec<Objet>> {
 /// Charge les quartiers (chaque Quartier contient déjà ses PNJ, ennemis, etc.)
 fn charger_quartiers() -> Result<Vec<Quartier>> {
     let file = File::open("saves/District.json").unwrap();
-=======
-fn charger_quartiers() -> Result<Vec<Quartier>> {
-    let file = File::open("assets/saves/District.json")?;
->>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
     let reader = BufReader::new(file);
     let quartiers = serde_json::from_reader(reader)?;
     Ok(quartiers)
 }
 
-<<<<<<< HEAD
+
 // Charger le quartier en fonction de la position du héros
-pub fn charger_quartier(hero: &Hero) -> Result<Option<Quartier>> {
-    // Lire le fichier districts.json
-    let contenu = fs::read_to_string("assets/districts.json")
-        .context("Erreur de lecture de districts.json").unwrap();
+pub fn charger_quartier(hero: &Hero) -> Result<Quartier> {
+    let file = File::open("saves/District.json").context("Échec ouverture de District.json")?;
+    let reader = BufReader::new(file);
+    let quartiers: Vec<Quartier> = serde_json::from_reader(reader).context("Échec de parsing de District.json")?;
 
-    // Désérialiser en un Vec<QuartierBrut>
-    let quartiers: Vec<Quartier> = serde_json::from_str(&contenu)
-        .context("Erreur de parsing de districts.json").unwrap();
-
-    // Rechercher le quartier correspondant à la couleur du héros
-    let quartier = quartiers
+    quartiers
         .into_iter()
-        .find(|q| q.color == hero.position);
-
-    Ok(quartier)
+        .find(|q| q.color == hero.position)
+        .ok_or_else(|| anyhow::anyhow!("Aucun quartier trouvé pour la position: {}", hero.position))
 }
 
 // Charger les résidents du quartier
@@ -118,10 +98,6 @@ pub fn charger_marchand_quartier(quartier: &Quartier) -> Result<Option<Marchand>
 /// Charge le héros
 fn charger_hero() -> Result<Hero> {
     let file = File::open("saves/player.json").unwrap();
-=======
-fn charger_hero() -> Result<Hero> {
-    let file = File::open("assets/saves/player.json")?;
->>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
     let reader = BufReader::new(file);
     let hero = serde_json::from_reader(reader)?;
     Ok(hero)
@@ -132,10 +108,13 @@ pub fn initialiser_jeu() -> Result<Jeu> {
 
     let quartiers = charger_quartiers()?;
     let hero = charger_hero()?;
+    let quartier_actuel = hero.position.clone();
 
     let jeu = Jeu {
         quartiers,
-        hero,
+        quartier_actuel,
+        hero
+
     };
 
     Ok(jeu)

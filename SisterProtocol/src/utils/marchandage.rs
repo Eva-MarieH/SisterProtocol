@@ -139,7 +139,7 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
 
 pub fn marchandage(hero: &mut Hero) {
     match ini::charger_quartier(hero) {
-        Ok(Some(q)) => {
+        Ok(q) => {
             match ini::charger_marchand_quartier(&q) {
                 Ok(Some(mut marchand)) => {
                     discuter_avec_marchand(hero, &mut marchand);
@@ -148,8 +148,7 @@ pub fn marchandage(hero: &mut Hero) {
                 Err(e) => println!("Erreur lors du chargement du marchand : {}", e),
             }
         }
-        Ok(None) => println!("Quartier introuvable."),
-        Err(e) => println!("Erreur lors du chargement du quartier : {}", e),
+        _ => println!("Quartier introuvable."),
     }
 }
 

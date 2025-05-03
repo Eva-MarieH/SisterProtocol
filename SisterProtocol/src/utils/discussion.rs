@@ -80,7 +80,7 @@ pub fn discuter_avec_resident(residents: &[Resident]) {
 // Fonction principale pour démarrer la discussion
 pub fn discussion(hero: &Hero) {
     match ini::charger_quartier(hero) {
-        Ok(Some(q)) => {
+        Ok(q) => {
             // Charger les résidents du quartier
             let citoyens = ini::charger_residents_quartier(&q).unwrap();
 

@@ -1,9 +1,5 @@
 use crate::classes::inventaire::{Objet, Inventaire};
-<<<<<<< HEAD
-use serde::Deserialize;
-=======
 use serde::{Deserialize, Serialize};
->>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
 
 #[derive(Debug, Deserialize)]
 pub struct Hero {

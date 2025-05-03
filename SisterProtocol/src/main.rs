@@ -16,22 +16,9 @@ pub struct EtatCombat;
 fn main() -> Result<()> {
     use classes::personnage::Hero;
 
-<<<<<<< HEAD
-    let mut hero = Hero {
-        nom: String::from("John Doe"),
-        vie: 100,
-        force: 10,
-        intelligence: 15,
-        argent: 50,
-        position: String::from("bleu"),
-        inventaire: classes::inventaire::Inventaire { objets: vec![] },
-        amelioration: None,
-    };
-=======
+
     let mut jeu = initialiser_jeu();
     println!("Jeu initialisé");
->>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
-
     boucle_jeu(&mut jeu.unwrap().hero)?;
     Ok(())
 }
