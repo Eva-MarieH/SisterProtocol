@@ -8,8 +8,8 @@ pub struct Hero {
     pub intelligence: i32,
     pub argent: i32,
     pub position: String,
-    pub inventaire: Inventaire,
-    pub amelioration: Option<Objet>,
+    pub inventaire: Vec<Objet>,
+    pub amelioration: Option<Objet>
 }
 
 impl Hero {
@@ -29,8 +29,9 @@ pub struct Garde {
 #[derive(Debug, Deserialize)]
 pub struct Marchand {
     pub id: u8,
-    pub nom: String,
-    pub stock: Vec<u8>,
+    pub name: String,
+    pub inventory: Vec<Objet>,
+    pub money: i32,
 }
 
 #[derive(Clone, Debug, Deserialize)]

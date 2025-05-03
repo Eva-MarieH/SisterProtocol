@@ -50,5 +50,10 @@ pub fn initialiser_jeu() -> Result<Jeu> {
     let quartiers = charger_quartiers()?;
     let hero = charger_hero()?;
 
-    Ok(Jeu { quartiers, hero })
+    let jeu = Jeu {
+        quartiers,
+        hero,
+    };
+
+    Ok(jeu)
 }

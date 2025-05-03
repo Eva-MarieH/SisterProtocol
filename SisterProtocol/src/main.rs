@@ -4,6 +4,7 @@ mod utils;
 use crate::utils::affichage::Affichage;
 use utils::minijeux;
 use utils::deplacement;
+use utils::deplacement;
 use std::fs;
 use std::io::{self, Write};
 use serde_json::Value;
@@ -26,7 +27,13 @@ fn main() -> Result<()> {
 fn afficher_actions() {
     println!("\n🕹️  Actions possibles :");
     println!("1. Se déplacer vers un autre quartier");
+    println!("1. Se déplacer vers un autre quartier");
     println!("2. Utiliser un objet de l'inventaire");
+    println!("3. Parler à un citoyen");
+    println!("4. Marchander");
+    println!("5. Hacker");
+    println!("6. Combattre");
+    println!("7. Quitter le jeu");
     println!("3. Parler à un citoyen");
     println!("4. Marchander");
     println!("5. Hacker");
