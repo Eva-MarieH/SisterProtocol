@@ -14,3 +14,4 @@ pub struct Objet {
     pub effet: i32,
     pub type_objet: TypeObjet,
 }
+

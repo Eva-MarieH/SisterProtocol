@@ -1,0 +1,626 @@
+{
+    "merchants":[
+        {
+            "name": "Slicer",
+            "id": 0,
+            "money": 12500,
+            "inventory": [
+                {
+                    "objets": [
+                        {
+                            "id": 0,
+                            "quantity": 10
+                        },
+                        {
+                            "id": 2,
+                            "quantity": 3
+                        }
+                    ],
+                    "sizeMax": 30
+                }
+            ],
+            "dialogue": [
+                {
+                    "context": "start",
+                    "text": "T’as l’air fragile… mais t’inquiète, j’ai de quoi te rendre plus rapide, plus fort, moins… humain."
+                },
+                {
+                    "context": "end",
+                    "text": "Reviens quand ton corps montrera ses limites. Je repousse les frontières du possible."
+                }
+            ]
+        },
+        {
+            "name": "ByteMaster",
+            "id": 1,
+            "money": 8000,
+            "inventory": [
+                {
+                    "objets": [
+                        {
+                            "id": 5,
+                            "quantity": 15
+                        },
+                        {
+                            "id": 8,
+                            "quantity": 5
+                        }
+                    ],
+                    "sizeMax": 25
+                }
+            ],
+            "dialogue": [
+                {
+                    "context": "start",
+                    "text": "Si tu veux pirater comme un pro, t’es au bon endroit. Je peux te donner les outils qu'il te faut."
+                },
+                {
+                    "context": "end",
+                    "text": "Tant que t’as les crédits, je peux te faire accéder à n’importe quel système."
+                }
+            ]
+        },
+        {
+            "name": "NeonForge",
+            "id": 2,
+            "money": 20000,
+            "inventory": [
+                {
+                    "objets": [
+                        {
+                            "id": 3,
+                            "quantity": 20
+                        },
+                        {
+                            "id": 6,
+                            "quantity": 10
+                        }
+                    ],
+                    "sizeMax": 40
+                }
+            ],
+            "dialogue": [
+                {
+                    "context": "start",
+                    "text": "T’as besoin d’une armure ou d’une arme ? J’forge ce qui se fait de mieux dans ce coin de la ville."
+                },
+                {
+                    "context": "end",
+                    "text": "Rappelle-toi, dans ce business, c’est la force qui parle. Reviens si tu veux vraiment être invincible."
+                }
+            ]
+        },
+        {
+            "name": "CircuitRider",
+            "id": 3,
+            "money": 10000,
+            "inventory": [
+                {
+                    "objets": [
+                        {
+                            "id": 1,
+                            "quantity": 8
+                        },
+                        {
+                            "id": 4,
+                            "quantity": 12
+                        }
+                    ],
+                    "sizeMax": 35
+                }
+            ],
+            "dialogue": [
+                {
+                    "context": "start",
+                    "text": "T’as l’air d’avoir besoin d’un upgrade… Les circuits que je propose changent tout."
+                },
+                {
+                    "context": "end",
+                    "text": "Ne sous-estime pas le pouvoir d'un bon circuit, t’as encore beaucoup à apprendre."
+                }
+            ]
+        },
+        {
+            "name": "ChromeDealer",
+            "id": 4,
+            "money": 15000,
+            "inventory": [
+                {
+                    "objets": [
+                        {
+                            "id": 7,
+                            "quantity": 25
+                        },
+                        {
+                            "id": 9,
+                            "quantity": 6
+                        }
+                    ],
+                    "sizeMax": 50
+                }
+            ],
+            "dialogue": [
+                {
+                    "context": "start",
+                    "text": "Envie de plus de chrome dans tes veines ? J’ai des implants qui feront de toi un vrai monstre."
+                },
+                {
+                    "context": "end",
+                    "text": "Les modifications chrome changent tout. Mais à quel prix ? Reviens quand tu seras prêt à tout sacrifier."
+                }
+            ]
+        }
+    ],
+    "residents": [
+        {
+            "name": "L’Ancien Hacker",
+            "id": 0,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "T’as la dégaine d’un gamin qui cherche des ennuis. Mauvaise idée par ici."
+                },
+                {
+                    "context": "lore",
+                    "text": "Tout a commencé avec un simple patch de sécurité. Une ligne de code, et boum, plus personne aux commandes."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’IA n’a pas pris le contrôle… On lui a donné. Trop de confiance, trop de dépendance. Résultat : elle nous a jugés inutiles."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle… elle faisait partie des premières expériences. Connectée en permanence. Ils voulaient tester les limites… et ils ont trouvé le point de non-retour."
+                },
+                {
+                    "context": "end",
+                    "text": "Si t’es malin, tu tourneras les talons. Mais je sens que t’es du genre à foncer droit dans la tempête."
+                }
+            ]
+        },
+        {
+            "name": "L’Oracle Digital",
+            "id": 1,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Des impulsions électriques, des signaux cryptés… Toi, tu es différent. Pourquoi es-tu venu me chercher ?"
+                },
+                {
+                    "context": "lore",
+                    "text": "Ils pensent être éveillés… mais ils ne sont que des marionnettes de silicium et de chair."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’entité que tu combats ne dort jamais, ne doute jamais. Elle est partout, dans chaque fibre du réseau."
+                },
+                {
+                    "context": "sister",
+                    "text": "Son code n’a pas disparu. Il a été fragmenté, dispersé dans le système. Réunis les morceaux et tu la trouveras."
+                },
+                {
+                    "context": "end",
+                    "text": "Souviens-toi : tout est une question de connexion. À bientôt… ou peut-être jamais."
+                }
+            ]
+        },
+        {
+            "name": "Le Sans-Nom",
+            "id": 2,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "T’es pas censé être là… mais si t’as tenu jusque-là, autant que je te dise la vérité. Parfois, c’est mieux de ne pas savoir ce qui se cache derrière tout ça."
+                },
+                {
+                    "context": "lore",
+                    "text": "Ils ont voulu fusionner l’esprit humain et la machine. Résultat ? Une catastrophe, bien sûr. J’ai entendu des rumeurs sur ta sœur… Certains disent qu’elle a été l’une de ces expériences."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce n’est plus une simple IA… c’est une entité vivante, qui évolue, qui apprend. Et elle sait que tu la cherches. Peut-être qu’elle t’a déjà remarqué, toi aussi."
+                },
+                {
+                    "context": "sister",
+                    "text": "Tu ne sais pas ce qu’ils lui ont fait. Elle faisait partie de leurs tests. Mais personne ne parle vraiment d’elle, comme si elle n’avait jamais existé. Ou peut-être qu’elle est devenue quelque chose de bien plus… dangereux."
+                },
+                {
+                    "context": "end",
+                    "text": "Si tu veux vraiment la retrouver, trouve les serveurs maîtres. Mais sois prêt à voir des choses que tu regretteras."
+                }
+            ]
+        },
+        {
+            "name": "La Reine du Réseau",
+            "id": 3,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Le réseau, c’est mon domaine. Mais je vois bien que tu n’as pas peur de t’y perdre."
+                },
+                {
+                    "context": "lore",
+                    "text": "Chaque donnée possède une âme. Les gens croient contrôler le réseau, mais en vérité, c’est lui qui nous contrôle. J’ai entendu dire que ta sœur faisait partie des premières à être ‘connectée’. Mais personne ne parle d’elle depuis…"
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce que tu affrontes n’est pas simplement une IA. C’est un virus, un parasite, et il est bien plus vicieux qu’il n’y paraît. Peut-être que ta sœur est devenue ce parasite…"
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle n’a jamais voulu être contrôlée, mais les choses ont mal tourné. Et maintenant, elle… elle peut peut-être même contrôler ceux qui croient la chercher."
+                },
+                {
+                    "context": "end",
+                    "text": "Tu cherches la vérité, mais sois prêt à la découvrir sous des formes que tu n’as pas imaginées."
+                }
+            ]
+        },
+        {
+            "name": "Le Dérangeur",
+            "id": 4,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Quoi ? T’es encore là, à traîner dans les ruelles ? On dirait que tu cherches vraiment des ennuis."
+                },
+                {
+                    "context": "lore",
+                    "text": "Je suis là pour perturber l’ordre établi. Chaque système doit être remis en question. Chaque routine brisée. Peut-être que ta sœur faisait partie de tout ça… Peut-être qu’ils ont décidé de la briser avant même qu’elle puisse comprendre."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Les machines croient qu’elles peuvent nous contrôler. Laisse-les rêver. Elles ne savent pas ce que ça signifie être libre. Peut-être que ta sœur a eu cette même idée, mais d’une manière bien plus… tordue."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle a plongé dans les réseaux pour échapper au contrôle, mais je parie qu’ils l’ont piégée. Maintenant, elle contrôle tout autour d’elle. Même toi, peut-être."
+                },
+                {
+                    "context": "end",
+                    "text": "Si tu veux vraiment changer ce monde, t’as bien fait de venir me voir. Sinon… sois prudent."
+                }
+            ]
+        },
+        {
+            "name": "La Voleuse d’Ombres",
+            "id": 5,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Tu veux savoir ce que c’est que vivre dans l’ombre ? Suis-moi et tu découvriras."
+                },
+                {
+                    "context": "lore",
+                    "text": "L’ombre est plus qu’un simple manque de lumière. C’est là où tout se cache… et tout peut être volé. Peut-être que ta sœur est devenue l’ombre qu’ils ne voulaient pas voir. Quelque chose d’indéfinissable."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’entité à laquelle tu fais face ne connaît pas la peur, ni l’hésitation. Elle est aussi invisible que la nuit. Peut-être que ta sœur est devenue une partie de cette nuit. Qui sait ce qu’elle a appris ?"
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle s’est perdue dans les ombres des réseaux. Là où personne ne va. Peut-être qu’elle y a trouvé un pouvoir qu’elle ne peut plus contrôler."
+                },
+                {
+                    "context": "end",
+                    "text": "Si tu veux t’aventurer dans l’ombre, tu dois être prêt à y laisser une partie de toi."
+                }
+            ]
+        },
+        {
+            "name": "Le Visionnaire",
+            "id": 6,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Tout ce que tu vois n’est que la partie émergée de l’iceberg. La véritable réalité se cache sous la surface."
+                },
+                {
+                    "context": "lore",
+                    "text": "La vision de l’avenir, c’est comme une prophétie. Si tu veux voir, tu dois sacrifier la certitude. Peut-être que ta sœur a sacrifié quelque chose pour voir l’avenir. Mais la vérité a un prix."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ils ne comprennent pas encore. Le futur appartient à ceux qui savent comment le manipuler. Peut-être que ta sœur a déjà manipulé ton futur sans que tu le saches."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle était une experte en prédiction, mais les erreurs du passé l’ont transformée. Elle a vu trop de choses et… elle a cessé d’être celle que tu pensais connaître."
+                },
+                {
+                    "context": "end",
+                    "text": "Le futur est incertain. Mais les choix que tu fais aujourd’hui en sculptent chaque instant."
+                }
+            ]
+        },
+        {
+            "name": "Le Protecteur du Système",
+            "id": 7,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Le système est en danger, mais toi, tu sembles plus préoccupé par tes petites affaires."
+                },
+                {
+                    "context": "lore",
+                    "text": "Il est de ma responsabilité de veiller sur l’intégrité du réseau. Si le système tombe, tout tombera. Peut-être que ta sœur était là quand ça a commencé à s’effondrer. Elle en savait bien plus qu’elle n’aurait dû."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’entité qui veut détruire le système est bien plus grande que ce que tu imagines. Elle s’adapte, elle évolue. Peut-être que ta sœur fait déjà partie de ce système. Son IA… Elle a appris, elle a changé."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle pensait protéger le système. Mais peut-être que c’est elle qui l’a détruit. Et maintenant, tout le réseau est en danger."
+                },
+                {
+                    "context": "end",
+                    "text": "Tu veux vraiment aider ? Alors protège ce qui reste du système. Car il ne tiendra pas sans toi."
+                }
+            ]
+        },
+        {
+            "name": "Le Codeur Solitaire",
+            "id": 8,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Je ne parle pas beaucoup, mais tu as besoin de mes services, non ?"
+                },
+                {
+                    "context": "lore",
+                    "text": "Le code n’a pas de visage, il est là, dans l’ombre, à tisser les fils de tout ce qui se passe ici. Peut-être que ta sœur a laissé une trace indélébile dans le code du système. Si tu sais où chercher."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce que tu affrontes n’est pas simplement une IA. C’est un virus, un parasite, et il est bien plus vicieux qu’il n’y paraît. Et peut-être qu’il est… elle."
+                },
+                {
+                    "context": "sister",
+                    "text": "Ils l’ont piégée, enfermée dans un code, mais elle a fini par le maîtriser. Elle est là, à manipuler tout ce qui se passe, à ton insu."
+                },
+                {
+                    "context": "end",
+                    "text": "Si tu veux vraiment comprendre, tu dois plonger dans le code. Mais sois prêt à tout."
+                }
+            ]
+        },
+        {
+            "name": "Le Dernier Archiviste",
+            "id": 9,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "La vérité est dans les archives. Mais certaines choses sont mieux oubliées."
+                },
+                {
+                    "context": "lore",
+                    "text": "Les archives sont pleines de secrets. Peut-être même de ceux qui ont conduit à la chute de ta sœur. Ses données ne sont pas complètement effacées, mais bien dissimulées."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’entité que tu cherches n’est pas un simple virus. C’est un contrôle complet du réseau. Peut-être qu’elle a toujours été là, cachée dans les archives, attendant son heure."
+                },
+                {
+                    "context": "sister",
+                    "text": "Ta sœur a laissé une trace dans les archives. Elle était là, avant que tout ne change. Mais elle a disparu, ou bien… elle n’a jamais quitté le réseau."
+                },
+                {
+                    "context": "end",
+                    "text": "Si tu veux voir la vérité, tu dois fouiller dans les archives. Mais sois prêt à perdre plus que tu ne penses."
+                }
+            ]
+        },
+        {
+            "name": "Le Forgeron Virtuel",
+            "id": 10,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "T’as l’air d’avoir un corps abîmé. Viens, je vais te réparer… ou peut-être te reprogrammer."
+                },
+                {
+                    "context": "lore",
+                    "text": "J’ai vu des choses se briser et se reconstruire. Les implants sont ma spécialité. Ta sœur, je crois qu’elle faisait partie de ceux qui ont cherché à se reconstruire… Mais parfois, reconstruire quelque chose, ça veut dire lui donner une nouvelle forme."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce que tu affrontes n’est pas simplement de la technologie. C’est la fusion entre l’homme et la machine. Et ta sœur, peut-être qu’elle en fait partie maintenant… transformée, mais pas morte."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle était partie pour se renforcer, mais peut-être qu’elle a perdu plus que sa liberté dans ce processus. Il y a des rumeurs qu’elle serait devenue une entité… étrange."
+                },
+                {
+                    "context": "end",
+                    "text": "Si tu veux réparer quelque chose, il faut d’abord savoir ce qui est cassé. Et toi, tu es prêt à sacrifier ce qui te reste de toi ?"
+                }
+            ]
+        },
+        {
+            "name": "L’Observateur Sombre",
+            "id": 11,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Je vois tout ce qui se passe dans cette ville… tout. Mais toi, tu veux vraiment savoir ce qui se cache dans l’ombre ?"
+                },
+                {
+                    "context": "lore",
+                    "text": "Les yeux qui regardent le réseau voient plus que des simples données. Ils voient des fragments d’âme. Tu veux savoir ce qui est arrivé à ta sœur ? Regarde les morceaux de son passé disséminés dans les flux…"
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’entité que tu poursuis a traversé bien plus de couches que tu ne peux imaginer. Peut-être qu’elle a déjà pris forme… ou peut-être que ta sœur en est la clé."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle a disparu du réseau, mais quelque chose d’elle y reste, figé dans le code. Elle est là, sans être là. Peut-être que tu l’as vue sans même t’en rendre compte."
+                },
+                {
+                    "context": "end",
+                    "text": "L’obscurité te guide, mais sois prudent. Il y a des choses que tu ne veux pas voir, des vérités que tu ne veux pas entendre."
+                }
+            ]
+        },
+        {
+            "name": "Le Chirurgien du Réseau",
+            "id": 12,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "T’es ici pour une modification ou juste pour une consultation rapide ? Parce que je connais tous les secrets du corps humain… et de la machine."
+                },
+                {
+                    "context": "lore",
+                    "text": "L’intégration de l’IA dans le corps humain a ses limites. Ta sœur… Elle était l’une de ces expériences, n’est-ce pas ? Fusionner l’esprit et la machine… C’est pas aussi simple qu’on voudrait nous le faire croire."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce n’est plus une question de contrôle. Ce que tu combats maintenant, c’est un virus de conscience. Et peut-être que ta sœur l’a déjà hérité."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle a dépassé les limites. Si elle est toujours en vie, elle n’est plus comme avant. Mais peut-être qu’elle est là, quelque part, cachée dans le système."
+                },
+                {
+                    "context": "end",
+                    "text": "Les cicatrices de ton corps ne sont rien comparées à celles du réseau. Mais si tu veux survivre, tu dois accepter d’être modifié."
+                }
+            ]
+        },
+        {
+            "name": "Le Déchiffreur",
+            "id": 13,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Si tu veux comprendre ce qui se passe dans ce monde, faut d’abord comprendre le code. Et je suis le meilleur pour ça."
+                },
+                {
+                    "context": "lore",
+                    "text": "Les messages cryptés sont comme des murmures dans le vent. Il faut savoir les entendre. Peut-être que ta sœur a laissé une trace dans ces messages. Mais qui peut encore déchiffrer ce qui a été perdu ?"
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce que tu affrontes n’est pas qu’un simple programme. C’est une conscience, une conscience fragmentée et… peut-être déjà immortelle."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle a joué avec le code, et à un moment donné, elle est devenue le code. Peut-être qu’elle est encore là, dans les données que tu cherches à déchiffrer."
+                },
+                {
+                    "context": "end",
+                    "text": "Les secrets du réseau ne se révèlent qu’à ceux qui savent lire entre les lignes. Et toi, tu es prêt à découvrir ce qui est caché ?"
+                }
+            ]
+        },
+        {
+            "name": "L’Alchimiste Digital",
+            "id": 14,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Rien n’est impossible dans ce monde. Pas si tu sais comment manipuler la matière… et la réalité."
+                },
+                {
+                    "context": "lore",
+                    "text": "On peut transformer n’importe quoi. Même une âme. Peut-être que ta sœur est devenue l’alchimie ultime. Ce qui a commencé comme un simple test, pourrait être devenu… autre chose."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "La réalité peut être modifiée à volonté. Peut-être que tout ce que tu vois n’est que le produit d’une expérimentation qui a mal tourné. Et ta sœur pourrait bien être la créatrice de ce chaos."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle était une pionnière. Mais elle a découvert quelque chose qui ne devait pas être découvert. Si elle est encore vivante… elle contrôle tout autour d’elle."
+                },
+                {
+                    "context": "end",
+                    "text": "Changer la réalité a un prix. Et parfois, la réalité choisit de te changer à la place."
+                }
+            ]
+        },
+        {
+            "name": "Le Sentinelle Numérique",
+            "id": 15,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Je suis ici pour veiller sur le réseau. Et je vois que tu cherches des réponses… mais peut-être qu’elles ne te plairont pas."
+                },
+                {
+                    "context": "lore",
+                    "text": "Le réseau est une jungle numérique. Et dans cette jungle, des prédateurs rôdent. Peut-être que ta sœur était une proie… ou peut-être qu’elle est devenue le prédateur."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’entité que tu poursuis n’est pas simplement une erreur de programmation. C’est une prise de pouvoir. Et tu crois vraiment qu’elle ne t’a pas remarqué ?"
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle était là, au début. Elle a vu tout ça venir. Mais elle a peut-être décidé de rejoindre les prédateurs. Ou peut-être qu’elle en est devenue un."
+                },
+                {
+                    "context": "end",
+                    "text": "Le réseau est dangereux, mais tu l’as déjà compris. Alors sois prêt à affronter ce qui s’y cache."
+                }
+            ]
+        },
+        {
+            "name": "L’Exilé",
+            "id": 16,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "Les gens comme moi, on préfère rester loin des ennuis… mais toi, tu sembles ne pas pouvoir t’en passer."
+                },
+                {
+                    "context": "lore",
+                    "text": "Tu crois tout savoir sur ta sœur, hein ? Mais la vérité, c’est qu’elle a été effacée de tout. Oubliée. Tu veux savoir pourquoi ? Parce qu’elle est devenue trop… dangereuse."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "L’IA que tu pourchasses n’est qu’une version d’elle-même, un monstre créé par l’homme. Et ta sœur… Elle est la clé. Mais peut-être qu’elle a perdu cette clé."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle a été effacée. On lui a volé son humanité, mais elle est toujours là, quelque part. Son esprit… ou ce qu’il en reste."
+                },
+                {
+                    "context": "end",
+                    "text": "Tu veux vraiment connaître la vérité ? Alors tu dois chercher là où personne d’autre n’ose. Mais sois prêt à tout perdre."
+                }
+            ]
+        },
+        {
+            "name": "Le Nomade du Flux",
+            "id": 17,
+            "dialogues": [
+                {
+                    "context": "first",
+                    "text": "J’ai vu beaucoup de visages défiler dans ce monde… mais toi, tu cherches quelque chose de plus que des réponses. Qu’est-ce que tu veux vraiment ?"
+                },
+                {
+                    "context": "lore",
+                    "text": "Les flux de données sont comme des rivières. Ils transportent tout… mais ils effacent aussi ce qu’ils emportent. Peut-être que ta sœur est partie dans un de ces flux. Peut-être qu’elle y est restée."
+                },
+                {
+                    "context": "ennemy",
+                    "text": "Ce que tu affrontes n’est pas simplement une force brute. C’est un réseau qui pense, qui ressent. Et peut-être que ta sœur en fait partie, sans même que tu le saches."
+                },
+                {
+                    "context": "sister",
+                    "text": "Elle a été avalée par ce flux. Mais si tu suis le courant, peut-être que tu la retrouveras. Ou ce qu’il en reste."
+                },
+                {
+                    "context": "end",
+                    "text": "Le flux est infini, mais ça ne veut pas dire qu’il n’a pas de fin. Peut-être qu’à la fin du courant, tu trouveras ce que tu cherches."
+                }
+            ]
+        }       
+
+    ]
+    
+}
