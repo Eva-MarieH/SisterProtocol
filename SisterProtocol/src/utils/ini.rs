@@ -1,6 +1,7 @@
 use std::fs::{self, File};
 use std::io::BufReader;
 use std::path::Path;
+<<<<<<< HEAD
 use serde_json::Result;
 use anyhow::Context;
 
@@ -8,14 +9,20 @@ use crate::classes::quartier::Quartier;
 use crate::classes::personnage::{Hero, Marchand, Resident};
 use crate::classes::jeu::Jeu;
 use crate::classes::inventaire::{Objet, Inventaire};
+=======
+use anyhow::Result;
 
-/// Copie le dossier `data/` vers `saves/`, en recréant le dossier à neuf
+use crate::classes::quartier::Quartier;
+use crate::classes::personnage::Hero;
+use crate::classes::jeu::Jeu;
+>>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
+
 fn copier_dossier_data() -> std::io::Result<()> {
-    let source = Path::new("data");
-    let destination = Path::new("saves");
+    let source = Path::new("assets/data");
+    let destination = Path::new("assets/saves");
 
     if destination.exists() {
-        fs::remove_dir_all(&destination)?; // On nettoie d'abord
+        fs::remove_dir_all(&destination)?;
     }
     fs::create_dir_all(&destination)?;
 
@@ -32,6 +39,7 @@ fn copier_dossier_data() -> std::io::Result<()> {
     Ok(())
 }
 
+<<<<<<< HEAD
 /// Charge les objets
 pub fn charger_objets() -> Result<Vec<Objet>> {
     let contenu = fs::read_to_string("saves/Objects.json")
@@ -46,10 +54,16 @@ pub fn charger_objets() -> Result<Vec<Objet>> {
 /// Charge les quartiers (chaque Quartier contient déjà ses PNJ, ennemis, etc.)
 fn charger_quartiers() -> Result<Vec<Quartier>> {
     let file = File::open("saves/District.json").unwrap();
+=======
+fn charger_quartiers() -> Result<Vec<Quartier>> {
+    let file = File::open("assets/saves/District.json")?;
+>>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
     let reader = BufReader::new(file);
-    serde_json::from_reader(reader)
+    let quartiers = serde_json::from_reader(reader)?;
+    Ok(quartiers)
 }
 
+<<<<<<< HEAD
 // Charger le quartier en fonction de la position du héros
 pub fn charger_quartier(hero: &Hero) -> Result<Option<Quartier>> {
     // Lire le fichier districts.json
@@ -104,23 +118,23 @@ pub fn charger_marchand_quartier(quartier: &Quartier) -> Result<Option<Marchand>
 /// Charge le héros
 fn charger_hero() -> Result<Hero> {
     let file = File::open("saves/player.json").unwrap();
+=======
+fn charger_hero() -> Result<Hero> {
+    let file = File::open("assets/saves/player.json")?;
+>>>>>>> be5e855d3d34068140aafc649ef16f260a41c4ec
     let reader = BufReader::new(file);
-    serde_json::from_reader(reader)
+    let hero = serde_json::from_reader(reader)?;
+    Ok(hero)
 }
 
-/// Fonction principale d'initialisation du jeu
 pub fn initialiser_jeu() -> Result<Jeu> {
     copier_dossier_data().expect("Erreur lors de la copie du dossier data");
 
     let quartiers = charger_quartiers()?;
     let hero = charger_hero()?;
 
-    // Tu peux ici extraire le quartier actuel du héros si tu le stockes dans Hero :
-    let quartier_actuel = hero.position.clone(); // ou un autre champ, selon ta struct
-
     let jeu = Jeu {
         quartiers,
-        quartier_actuel,
         hero,
     };
 
