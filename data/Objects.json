@@ -1,87 +1,56 @@
 [
     {
         "id": 0,
-        "name": "upgrade T1",
-        "nbSlots": 3,
-        "infos": {
-            "force": 1,
-            "prix": 10,
-            "zones": ["bleu", "vert"]
-        }
+        "nom": "upgrade T1",
+        "effet": 1,
+        "type_objet": "Amelioration"
     },
     {
         "id": 1,
-        "name": "upgrade T2",
-        "nbSlots": 3,
-        "infos": {
-            "force": 3,
-            "prix": 25,
-            "zones": ["vert", "jaune"]
-        }
+        "nom": "upgrade T2",
+        "effet": 3,
+        "type_objet": "Amelioration"
     },
     {
         "id": 2,
-        "name": "upgrade T3",
-        "nbSlots": 3,
-        "infos": {
-            "force": 5,
-            "prix": 45,
-            "zones": ["jaune", "violet"]
-        }
+        "nom": "upgrade T3",
+        "effet": 5,
+        "type_objet": "Amelioration"
     },
     {
         "id": 3,
-        "name": "upgrade T4",
-        "nbSlots": 3,
-        "infos": {
-            "force": 7,
-            "prix": 60,
-            "zones": ["violet", "rouge"]
-        }
+        "nom": "upgrade T4",
+        "effet": 7,
+        "type_objet": "Amelioration"
     },
     {
         "id": 4,
-        "name": "upgrade T5",
-        "nbSlots": 5,
-        "infos": {
-            "force": 10,
-            "prix": 100,
-            "zones": ["rouge"]
-        }
+        "nom": "upgrade T5",
+        "effet": 10,
+        "type_objet": "Amelioration"
     },
     {
         "id": 5,
-        "name": "carte d'accès",
-        "nbSlots": 1,
-        "infos": {
-            "zones": ["bleu", "vert"]
-        }
+        "nom": "carte d'accès",
+        "effet": 0,
+        "type_objet": "CarteAcces"
     },
     {
         "id": 6,
-        "name": "canette de soda",
-        "nbSlots": 1,
-        "infos": {
-            "restauration": 10,
-            "zones": ["bleu","vert", "jaune","violet","rouge"]
-        }
+        "nom": "canette de soda",
+        "effet": 10,
+        "type_objet": "Nourriture"
     },
     {
         "id": 7,
-        "name": "sandwich au poulet",
-        "nbSlots": 1,
-        "infos": {
-            "restauration": 25,
-            "zones": ["vert", "jaune","violet","rouge"]
-        }
+        "nom": "sandwich au poulet",
+        "effet": 25,
+        "type_objet": "Nourriture"
     },
     {
         "id": 8,
-        "name": "morphine",
-        "nbSlots": 1,
-        "infos": {
-            "restauration": 50,
-            "zones": ["violet","rouge"]
-        }
+        "nom": "morphine",
+        "effet": 50,
+        "type_objet": "Nourriture"
     }
 ]

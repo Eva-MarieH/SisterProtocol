@@ -14,7 +14,3 @@ pub struct Objet {
     pub effet: i32,
     pub type_objet: TypeObjet,
 }
-
-pub struct Upgrade {
-    pub niveau: i32,
-}
