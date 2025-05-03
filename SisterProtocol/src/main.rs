@@ -9,24 +9,17 @@ use std::io::{self, Write};
 use serde_json::Value;
 use anyhow::{Result, Context};
 use rand::Rng;
+use utils::ini::initialiser_jeu;
 
 pub struct EtatCombat;
 
 fn main() -> Result<()> {
     use classes::personnage::Hero;
 
-    let mut hero = Hero {
-        nom: String::from("John Doe"),
-        vie: 100,
-        force: 10,
-        intelligence: 15,
-        argent: 50,
-        position: String::from("bleu"),
-        inventaire: classes::inventaire::Inventaire { objets: vec![] },
-        amelioration: None,
-    };
+    let mut jeu = initialiser_jeu();
+    println!("Jeu initialisé");
 
-    boucle_jeu(&mut hero)?;
+    boucle_jeu(&mut jeu.unwrap().hero)?;
     Ok(())
 }
 

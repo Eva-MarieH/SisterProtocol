@@ -2,19 +2,18 @@ use std::fs;
 use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
-use serde_json::Result;
+use anyhow::Result;
 
 use crate::classes::quartier::Quartier;
 use crate::classes::personnage::Hero;
-use crate::Jeu;
+use crate::classes::jeu::Jeu;
 
-/// Copie le dossier `data/` vers `saves/`, en recréant le dossier à neuf
 fn copier_dossier_data() -> std::io::Result<()> {
-    let source = Path::new("data");
-    let destination = Path::new("saves");
+    let source = Path::new("assets/data");
+    let destination = Path::new("assets/saves");
 
     if destination.exists() {
-        fs::remove_dir_all(&destination)?; // On nettoie d'abord
+        fs::remove_dir_all(&destination)?;
     }
     fs::create_dir_all(&destination)?;
 
@@ -31,39 +30,25 @@ fn copier_dossier_data() -> std::io::Result<()> {
     Ok(())
 }
 
-/// Charge les quartiers (chaque Quartier contient déjà ses PNJ, ennemis, etc.)
 fn charger_quartiers() -> Result<Vec<Quartier>> {
-    let file = File::open("saves/District.json")?;
+    let file = File::open("assets/saves/District.json")?;
     let reader = BufReader::new(file);
-    serde_json::from_reader(reader)
+    let quartiers = serde_json::from_reader(reader)?;
+    Ok(quartiers)
 }
 
-/// Charge le héros
 fn charger_hero() -> Result<Hero> {
-    let file = File::open("saves/player.json")?;
+    let file = File::open("assets/saves/player.json")?;
     let reader = BufReader::new(file);
-    serde_json::from_reader(reader)
+    let hero = serde_json::from_reader(reader)?;
+    Ok(hero)
 }
 
-/// Fonction principale d'initialisation du jeu
 pub fn initialiser_jeu() -> Result<Jeu> {
     copier_dossier_data().expect("Erreur lors de la copie du dossier data");
 
     let quartiers = charger_quartiers()?;
     let hero = charger_hero()?;
 
-    // Tu peux ici extraire le quartier actuel du héros si tu le stockes dans Hero :
-    let quartier_actuel = hero.position.clone(); // ou un autre champ, selon ta struct
-
-    let jeu = Jeu {
-        quartiers,
-        quartier_actuel,
-        hero,
-    };
-
-    Ok(jeu)
-<<<<<<< HEAD
+    Ok(Jeu { quartiers, hero })
 }
-=======
-}
->>>>>>> 63e707aa6aa897068c5df3f9e24d66c5371d239a

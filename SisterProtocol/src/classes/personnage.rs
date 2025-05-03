@@ -1,5 +1,5 @@
 use crate::classes::inventaire::{Objet, Inventaire};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 pub struct Hero {
     pub nom: String,
