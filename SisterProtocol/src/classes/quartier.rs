@@ -9,7 +9,7 @@ pub struct Quartier{
     //pub hidingPlace: Vec<CachetteBrute>,
     pub unlocked: bool,
     pub enemies: Vec<usize>,
-    pub merchant: usize,
+    pub merchant: u8,
     pub residents: Vec<usize>,
     pub pc: Option<Vec<usize>>,
     pub server: Option<usize>,

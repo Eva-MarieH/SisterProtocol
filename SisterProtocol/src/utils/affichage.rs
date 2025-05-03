@@ -1,7 +1,8 @@
 use crate::classes::jeu::Jeu;
 use crate::classes::quartier::Quartier;
-use crate::classes::personnage::Hero;
-use crate::classes::inventaire::{Objet, Inventaire, TypeObjet};
+use crate::classes::personnage::{Resident, Marchand, Hero};
+use crate::classes::inventaire::{Objet, Inventaire, TypeObjet, ObjetQuantifie};
+use crate::utils::ini;
 
 pub struct Affichage;
 
@@ -36,6 +37,25 @@ impl Affichage {
         println!("PNJs: {}", quartier.residents.len());
         println!("Unlocked: {}", quartier.unlocked);
     }
+
+    // Afficher les dialogues d'un résident en fonction du contexte
+    pub fn afficher_dialogue_residents(resident: &Resident, context: &str) {
+        // Chercher un dialogue spécifique au contexte
+        if let Some(dialogue) = resident.dialogues.iter().find(|d| d.context == context) {
+            println!("{}", dialogue.text); // Afficher le texte du dialogue
+        } else {
+            println!("Aucun dialogue pour ce contexte.");
+        }
+    }
+
+    pub fn afficher_dialogue_marchand(marchand: &Marchand, context: &str) {
+        // Chercher un dialogue spécifique au contexte
+        if let Some(dialogue) = marchand.dialogues.iter().find(|d| d.context == context) {
+            println!("{}", dialogue.text); // Afficher le texte du dialogue
+        } else {
+            println!("Aucun dialogue pour ce contexte.");
+        }
+    }
     
     pub fn afficher_hero(hero: &Hero) {
         println!("\n=== Héro ===");
@@ -48,21 +68,49 @@ impl Affichage {
         println!("Inventaire: {} objets", hero.inventaire.objets.len());
     }
 
+
+
     // Fonction pour afficher les objets de l'inventaire
     pub fn afficher_inventaire(inventaire: &Inventaire) {
+        let objets = match ini::charger_objets() {
+            Ok(objs) => objs,
+            Err(_) => {
+                println!("Erreur de chargement des objets.");
+                return;
+            }
+        };
+    
         println!("[Inventaire]");
-        for objet in &inventaire.objets {
-            match objet.type_objet {
-                TypeObjet::Nourriture => {
-                    println!("Nom: {}, Effet: {}, Type: Nourriture", objet.nom, objet.effet);
-                }
-                TypeObjet::Amelioration => {
-                    println!("Nom: {}, Effet: {}, Type: Amélioration", objet.nom, objet.effet);
-                }
-                TypeObjet::CarteAcces => {
-                    println!("Nom: {}, Effet: {}, Type: Carte d'accès", objet.nom, objet.effet);
-                }
+        for oq in &inventaire.objets {
+            if let Some(objet) = objets.iter().find(|o| o.id == oq.id) {
+                let type_str = match objet.type_objet {
+                    TypeObjet::Nourriture => "Nourriture",
+                    TypeObjet::Amelioration => "Amélioration",
+                    TypeObjet::CarteAcces => "Carte d'accès",
+                };
+                println!(
+                    "Nom: {}, Effet: {}, Type: {}, Quantité: {}",
+                    objet.nom, objet.effet, type_str, oq.quantity
+                );
+            } else {
+                println!("Objet inconnu avec ID {} (quantité: {})", oq.id, oq.quantity);
             }
         }
     }
+
+    pub fn trouver_objet_par_id(id: u8, objets: &[Objet]) -> Option<&Objet> {
+        objets.iter().find(|obj| obj.id == id)
+    }
+    
+    pub fn afficher_inventaire_filtre(inventaire: &[ObjetQuantifie], objets: &[Objet], filtrer: bool) {
+        for obj_q in inventaire {
+            if let Some(obj) = Self::trouver_objet_par_id(obj_q.id, objets) {
+                if filtrer && !matches!(obj.type_objet, TypeObjet::Nourriture | TypeObjet::Amelioration) {
+                    continue;
+                }
+                println!("{}  x{} - {} crédits", obj.nom, obj_q.quantity, obj.prix);
+            }
+        }
+    }
+    
 }

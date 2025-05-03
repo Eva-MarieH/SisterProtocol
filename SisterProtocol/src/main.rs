@@ -2,9 +2,8 @@ mod classes;
 mod utils;
 
 use crate::utils::affichage::Affichage;
-use utils::minijeux;
-use utils::deplacement;
-use utils::deplacement;
+use crate::utils::{minijeux, deplacement, marchandage, discussion};
+
 use std::fs;
 use std::io::{self, Write};
 use serde_json::Value;
@@ -22,7 +21,6 @@ fn main() -> Result<()> {
         force: 10,
         intelligence: 15,
         argent: 50,
-        position: String::from("bleu"),
         position: String::from("bleu"),
         inventaire: classes::inventaire::Inventaire { objets: vec![] },
         amelioration: None,
@@ -71,8 +69,8 @@ fn boucle_jeu(hero: &mut classes::personnage::Hero) -> Result<()> {
 
 
             },
-            "3" => utils::discussion::discussion(hero),
-            "4" => utils::marchandage::marchand(hero),
+            "3" => discussion::discussion(hero),
+            "4" => marchandage::marchandage(hero),
             "5" => println!("📦 Inventaire : {:?}", Affichage::afficher_inventaire(&hero.inventaire)),
             "6" => {
                 println!("❤️ Statut : ");

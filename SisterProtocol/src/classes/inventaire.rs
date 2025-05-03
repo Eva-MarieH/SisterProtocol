@@ -16,12 +16,12 @@ pub struct Objet {
     pub prix: i32,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Inventaire {
     pub objets: Vec<ObjetQuantifie>,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
 pub struct ObjetQuantifie {
     pub id: u8,
     pub quantity: u32,

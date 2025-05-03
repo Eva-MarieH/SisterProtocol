@@ -1,6 +1,7 @@
-use crate::classes::inventaire::{Objet};
+use crate::classes::inventaire::{Objet, Inventaire};
 use serde::Deserialize;
 
+#[derive(Debug, Deserialize)]
 pub struct Hero {
     pub nom: String,
     pub vie: i32,
@@ -8,7 +9,7 @@ pub struct Hero {
     pub intelligence: i32,
     pub argent: i32,
     pub position: String,
-    pub inventaire: Vec<Objet>,
+    pub inventaire: Inventaire,
     pub amelioration: Option<Objet>
 }
 
@@ -30,8 +31,9 @@ pub struct Garde {
 pub struct Marchand {
     pub id: u8,
     pub name: String,
-    pub inventory: Vec<Objet>,
+    pub inventory: Inventaire,
     pub money: i32,
+    pub dialogues: Vec<Dialogue>,
 }
 
 #[derive(Clone, Debug, Deserialize)]

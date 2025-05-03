@@ -5,3 +5,4 @@ pub mod discussion;
 pub mod deplacement;
 pub mod hacking;
 pub mod marchandage;
+pub mod ini;
