@@ -5,5 +5,11 @@
     "intelligence": 0,
     "argent": 0,
     "position": "bleu",
-    "maxSlots": 10
+    "inventory":[
+        {
+            "id": 6,
+            "quantity": 1
+        }
+    ]
+
 }
