@@ -14,14 +14,3 @@ pub struct Objet {
     pub effet: i32,
     pub type_objet: TypeObjet,
 }
-
-pub struct Upgrade {
-    pub niveau: i32,
-}
-
-impl Inventaire {
-    // Fonction pour ajouter un objet à l'inventaire
-    pub fn ajouter_objet(&mut self, objet: Objet) {
-        self.objets.push(objet);
-    }
-}

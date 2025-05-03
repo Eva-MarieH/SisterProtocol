@@ -1,6 +1,5 @@
-use crate::classes::inventaire::Objet;
-use crate::classes::inventaire::Inventaire;
-use crate::classes::inventaire::Upgrade;
+use crate::classes::inventaire::{Objet, Inventaire};
+use serde::Deserialize;
 
 pub struct Hero {
     pub nom: String,
@@ -10,7 +9,7 @@ pub struct Hero {
     pub argent: i32,
     pub position: String,
     pub inventaire: Inventaire,
-    pub amelioration: Option<Upgrade>,
+    pub amelioration: Option<Objet>,
 }
 
 impl Hero {
@@ -27,21 +26,24 @@ pub struct Garde {
     pub loot: Vec<Objet>,
 }
 
+#[derive(Debug, Deserialize)]
 pub struct Marchand {
     pub id: u8,
     pub nom: String,
-    pub stock: Vec<Objet>,
+    pub stock: Vec<u8>,
 }
 
-pub struct PNJ {
+#[derive(Clone, Debug, Deserialize)]
+pub struct Resident {
+    pub name: String,
     pub id: u8,
-    pub nom: String,
-    pub dialogue: Vec<Dialogue>,
+    pub dialogues: Vec<Dialogue>,
 }
 
+#[derive(Clone, Debug, Deserialize)]
 pub struct Dialogue {
-    pub contexte: String,
-    pub message: String,
+    pub context: String,
+    pub text: String,
 }
 
 pub struct Boss {

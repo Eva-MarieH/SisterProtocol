@@ -14,26 +14,26 @@ impl Affichage {
     pub fn afficher_jeu(jeu: &Jeu) {
         println!("\n=== État du Jeu ===");
         for quartier in &jeu.quartiers {
-            println!("- Quartier: {}", quartier.couleur);
+            println!("- Quartier: {}", quartier.color);
         }
         println!("- Héro: {}", jeu.hero.nom);
     }
     
     pub fn afficher_quartier(quartier: &Quartier) {
-        println!("\n=== Quartier: {} ===", quartier.couleur);
-        println!("Gardes: {}", quartier.gardes.len());
-        match &quartier.ordinateurs {
+        println!("\n=== Quartier: {} ===", quartier.color);
+        println!("Gardes: {}", quartier.enemies.len());
+        match &quartier.pc {
             Some(ordinateurs) => println!("Ordinateurs: {}", ordinateurs.len()),
             None => println!("Ordinateurs: 0"),
         }
-        if quartier.serveur.is_some() {
+        if quartier.server.is_some() {
             println!("Serveur: Présent");
         }
         if quartier.boss.is_some() {
             println!("Boss: Présent");
         }
         println!("Marchands: Présent");
-        println!("PNJs: {}", quartier.pnjs.len());
+        println!("PNJs: {}", quartier.residents.len());
         println!("Unlocked: {}", quartier.unlocked);
     }
     
