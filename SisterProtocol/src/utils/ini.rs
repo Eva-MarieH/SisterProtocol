@@ -62,8 +62,4 @@ pub fn initialiser_jeu() -> Result<Jeu> {
     };
 
     Ok(jeu)
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 63e707aa6aa897068c5df3f9e24d66c5371d239a
