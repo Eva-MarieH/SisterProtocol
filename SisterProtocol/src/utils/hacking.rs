@@ -7,11 +7,11 @@ use crate::classes::quartier::Quartier;
 use rand::Rng;
 use anyhow::{Result, Context};
 
-pub fn haking(jeu: &mut Jeu) -> Result<()> {
+pub fn hacking(jeu: &mut Jeu) {
     let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
-        .context("Quartier actuel introuvable")?;
+        .context("Quartier actuel introuvable").unwrap();
     
-    match prochain_ennemi_hackable(quartier_actuel)? {
+    match prochain_ennemi_hackable(quartier_actuel).unwrap() {
         Some(ennemi) => {
             match ennemi {
                 EnnemiHackable::Ordinateur { id, name } => {
@@ -24,7 +24,7 @@ pub fn haking(jeu: &mut Jeu) -> Result<()> {
                     };
                     Affichage::afficher_resultat_hacking(&result, &name);
                     if result.is_ok() {
-                        supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Ordinateur { id, name })?;
+                        supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Ordinateur { id, name }).unwrap();
                     }
                 }
                 EnnemiHackable::Serveur { id, name } => {
@@ -43,7 +43,7 @@ pub fn haking(jeu: &mut Jeu) -> Result<()> {
                         let result2 = pendu_random();
                         if result2.is_ok() {
                             println!("🎉 TU AS VAINCU LE SERVEUR !");
-                            supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Serveur { id, name })?;
+                            supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Serveur { id, name }).unwrap();
                         } else {
                             Affichage::afficher_resultat_hacking(&result2, &name);
                         }
@@ -53,8 +53,6 @@ pub fn haking(jeu: &mut Jeu) -> Result<()> {
         }
         None => println!("✅ Tous les ennemis ont été vaincus !"),
     }
-
-    Ok(())
 }
 
 fn supprimer_ennemi_hackable(quartier_actuel: &mut Quartier, ennemi: &EnnemiHackable) -> Result<()> {

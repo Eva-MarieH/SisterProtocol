@@ -32,7 +32,7 @@ fn copier_dossier_data() -> std::io::Result<()> {
 
 /// Charge les objets
 pub fn charger_objets() -> Result<Vec<Objet>> {
-    let contenu = fs::read_to_string("saves/Objects.json")
+    let contenu = fs::read_to_string("assets/saves/Objects.json")
         .context("Impossible de lire le fichier Objects.json").unwrap();
 
     let objets: Vec<Objet> = serde_json::from_str(&contenu)
@@ -43,23 +43,10 @@ pub fn charger_objets() -> Result<Vec<Objet>> {
 
 /// Charge les quartiers (chaque Quartier contient déjà ses PNJ, ennemis, etc.)
 fn charger_quartiers() -> Result<Vec<Quartier>> {
-    let file = File::open("saves/District.json").unwrap();
+    let file = File::open("assets/saves/District.json").unwrap();
     let reader = BufReader::new(file);
     let quartiers = serde_json::from_reader(reader)?;
     Ok(quartiers)
-}
-
-
-// Charger le quartier en fonction de la position du héros
-pub fn charger_quartier(hero: &Hero) -> Result<Quartier> {
-    let file = File::open("saves/District.json").context("Échec ouverture de District.json")?;
-    let reader = BufReader::new(file);
-    let quartiers: Vec<Quartier> = serde_json::from_reader(reader).context("Échec de parsing de District.json")?;
-
-    quartiers
-        .into_iter()
-        .find(|q| q.color == hero.position)
-        .ok_or_else(|| anyhow::anyhow!("Aucun quartier trouvé pour la position: {}", hero.position))
 }
 
 // Charger les résidents du quartier
@@ -95,9 +82,9 @@ pub fn charger_marchand_quartier(quartier: &Quartier) -> Result<Option<Marchand>
     Ok(marchand)
 }
 
-/// Charge le héros
+/// Charge le héross
 fn charger_hero() -> Result<Hero> {
-    let file = File::open("saves/player.json").unwrap();
+    let file = File::open("assets/saves/player.json").unwrap();
     let reader = BufReader::new(file);
     let hero = serde_json::from_reader(reader)?;
     Ok(hero)
@@ -119,3 +106,19 @@ pub fn initialiser_jeu() -> Jeu {
 
     jeu
 }
+
+pub fn continue_jeu() -> Jeu {
+    let quartiers = charger_quartiers().unwrap();
+    let hero = charger_hero().unwrap();
+    let quartier_actuel = hero.position.clone();
+
+    let jeu = Jeu {
+        quartiers,
+        quartier_actuel,
+        hero
+
+    };
+
+    jeu
+}
+

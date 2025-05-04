@@ -39,6 +39,8 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
             return;
         }
     };
+
+    print!("Vous parlerz avec {}.\n", marchand.name);
     
     Affichage::afficher_dialogue_marchand(marchand, "start");
 

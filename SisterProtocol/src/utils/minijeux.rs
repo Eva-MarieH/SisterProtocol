@@ -65,20 +65,6 @@ pub fn pendu_random() -> Result<()> {
     Ok(())
 }
 
-//
-// Lancement générique d'un mini-jeu
-//
-
-pub fn lancer_mini_jeu(nom: &str) -> Result<()> {
-    match nom {
-        "binaire" => mastermind_binaire_random()?,
-        "couleur" => mastermind_couleur_random()?,
-        "pendu" => pendu_random()?,
-        _ => println!("Mini-jeu inconnu : {}", nom),
-    }
-    Ok(())
-}
-
 // --- Implémentations des jeux ---
 
 fn mastermind_binaire(solution: &str) {
