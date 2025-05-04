@@ -4,6 +4,6 @@ pub enum Action {
     Parler,
     Marchander,
     Hacker,
-   // Combattre,
+    Combattre,
     Quitter,
 }

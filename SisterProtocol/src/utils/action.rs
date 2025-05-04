@@ -2,6 +2,7 @@ use crate::utils::affichage::Affichage;
 use crate::utils::{deplacement, discussion, hacking, marchandage, save, utilisation_objet};
 use crate::classes::jeu::Jeu;
 use crate::classes::action::Action;
+use crate::classes::combat::Combat;
 
 use std::io::{self, Write};
 
@@ -44,7 +45,14 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
                     println!("🚫 Impossible de pirater : des gardes sont encore présents !");
                 }
             },
-           // Action::Combattre => combat::lancer_combat(),
+            Action::Combattre => {
+                if jeu.peut_combatre() {
+                    Combat::lancer_combat(jeu);
+                }
+                else {
+                    println!("🚫 Impossible de combattre : vous n'avez plus de vie !");
+                }
+            },
             Action::Quitter => {
                 save::enregistrer_hero(&jeu.hero);
                 save::enregistrer_quartiers(&jeu.quartiers);

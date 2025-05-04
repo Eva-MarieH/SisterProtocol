@@ -5,7 +5,7 @@ use anyhow::{Context, Result};
 
 use crate::classes::entites::{Machines, Ordinateur, Serveur};
 use crate::classes::quartier::Quartier;
-use crate::classes::personnage::{Hero, Resident, Marchand, PNJs};
+use crate::classes::personnage::{Garde, Hero, Marchand, PNJs, Resident};
 use crate::classes::inventaire::Objet;
 use crate::classes::jeu::Jeu;
 
@@ -81,6 +81,30 @@ pub fn charger_marchand_quartier(quartier: &Quartier) -> Marchand {
         .into_iter()
         .find(|m| m.id == quartier.merchant)
         .expect("Aucun marchand correspondant trouvé pour ce quartier")
+}
+
+// Charger le premier garde du quartier
+pub fn charger_premier_garde_quartier(quartier: &Quartier) -> Option<Garde> {
+    let contenu_garde = fs::read_to_string("assets/saves/PNJs.json")
+        .context("Erreur de lecture de PNJs.json").unwrap();
+
+    let pnj_data: PNJs = serde_json::from_str(&contenu_garde)
+        .context("Erreur de parsing de PNJs.json").unwrap();
+
+    let ids = match quartier.guards.as_ref(){
+        Some(ids) => ids,
+        None => return None
+    };
+
+    // Filtrer les gardes en fonction des ids
+    let guards: Vec<Garde> = pnj_data
+        .guards
+        .into_iter()
+        .filter(|guard| ids.contains(&guard.id))
+        .collect();
+
+    // Retourner le premier garde, ou None si aucun garde n'est trouvé
+    guards.first().cloned()
 }
 
 // Charger le serveur du quartier

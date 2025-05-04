@@ -21,7 +21,16 @@ impl Affichage {
     
     pub fn afficher_quartier(quartier: &Quartier) {
         println!("\n=== Quartier: {} ===", quartier.color);
-        println!("Gardes: {}", quartier.guards.len());
+        match &quartier.guards {
+            Some(guardes) => {
+                if guardes.is_empty() {
+                    println!("Gardes: Aucun");
+                } else {
+                    println!("Gardes: {}", guardes.len());
+                }
+            }
+            None => println!("Gardes: 0"),
+        }
         match &quartier.ordinateurs {
             Some(ordinateurs) => {
                 if ordinateurs.is_empty() {

@@ -13,13 +13,8 @@ pub struct Hero {
     pub amelioration: Option<Objet>
 }
 
-impl Hero {
-    pub fn perdre_vie(&mut self, degats: i32) {
-        self.vie -= degats;
-    }
-}
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Garde {
     pub name: String,
     pub id: u8,

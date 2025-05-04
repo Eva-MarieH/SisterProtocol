@@ -1,4 +1,11 @@
-use rand::Rng;
+use rand::{Rng,rng};
+use std::io::{self, Write};
+
+use crate::classes::jeu::Jeu;
+use crate::utils::{save, utilisation_objet};
+use crate::utils::ini;
+
+use super::quartier::Quartier;
 
 pub struct Combat {
     pub force_hero: i32,
@@ -9,30 +16,124 @@ pub struct Combat {
 
 impl Combat {
     pub fn lancer(&mut self) -> (i32, i32) {
-        let mut rng = rand::thread_rng();
+        let mut rng_gen = rng();
 
         // Dégâts infligés 
-        let mut x_hero: i32;
-    let mut x_ennemi: i32;
-    if self.force_hero > self.force_ennemi {
-            x_hero = rng.gen_range(1..=5) * 20;
-        x_ennemi =  rng.gen_range(1..=20) * 5;
-        } else if self.force_hero < self.force_ennemi {
-        x_hero = rng.gen_range(1..=20) * 5;
-        x_ennemi =  rng.gen_range(1..=5) * 20;
-            rng.gen_range(1..=10) * 10
-        } else {
-            x_hero = rng.gen_range(1..=10) * 10;
-        x_ennemi =  rng.gen_range(1..=10) * 10;
+        let x_hero: i32;
+        let x_ennemi: i32;
+        if self.force_hero > self.force_ennemi {
+            x_hero = rng_gen.random_range(1..=5) * 20;
+            x_ennemi =  rng_gen.random_range(1..=20) * 5;
+        } 
+        else if self.force_hero < self.force_ennemi {
+            x_hero = rng_gen.random_range(1..=20) * 5;
+            x_ennemi =  rng_gen.random_range(1..=5) * 20;
+        } 
+        else {
+            x_hero = rng_gen.random_range(1..=10) * 10;
+            x_ennemi =  rng_gen.random_range(1..=10) * 10;
         };
 
-        // Mise à jour des vies
-        self.vie_hero -= x_ennemi;
+        // Mise à jour des vies 
         self.vie_ennemi -= x_hero;
+        println!("Tu infliges {} points de degats, l'ennemi a maintenant {} points de vie", x_hero, self.vie_ennemi);
+        if self.vie_ennemi <= 0 {
+            return (self.vie_hero, self.vie_ennemi)
+        }
 
-        println!("Tu infliges {} points de degats, l'ennemi a maintenant {} points de vie", x_hero);
+        self.vie_hero -= x_ennemi;
         println!("L'ennemi inflige {} points de degats, il te reste {} points de vie", x_ennemi, self.vie_hero);
+        if self.vie_hero <= 0{
+            return (self.vie_hero, self.vie_ennemi)
+        }
 
-        (degats_hero, degats_ennemi)
+        (self.vie_hero, self.vie_ennemi)
     }
+
+    pub fn supprimer_garde(quartier_actuel: &mut Quartier) {
+        if let Some(gardes) = &mut quartier_actuel.guards {
+            if gardes.is_empty() {
+                quartier_actuel.ordinateurs = None;
+            }
+            else{
+                gardes.remove(0);
+            }
+        }
+    }
+
+    pub fn lancer_combat(jeu: &mut Jeu) {
+        // Récupération des infos nécessaires (copiées ou clonées) avant la boucle
+        let mut combat: Combat;
+        let garde_nom: String;
+        let quartier_couleur = jeu.quartier_actuel.clone();
+    
+        {
+            let quartier_actuel = jeu.quartiers.iter_mut()
+                .find(|q| q.color == quartier_couleur)
+                .expect("Quartier actuel introuvable");
+    
+            let garde = ini::charger_premier_garde_quartier(quartier_actuel)
+                .expect("Aucun garde trouvé");
+    
+            garde_nom = garde.name.clone();
+    
+            combat = Combat {
+                force_hero: jeu.hero.force,
+                force_ennemi: garde.force,
+                vie_hero: jeu.hero.vie,
+                vie_ennemi: 100,
+            };
+    
+            println!("\nTu rencontres {} !", garde_nom);
+        }
+    
+        loop {
+            println!("\nQue veux-tu faire ?");
+            println!("1. Attaquer");
+            println!("2. Utiliser un objet");
+            println!("3. Abandonner");
+    
+            print!("> ");
+            io::stdout().flush().unwrap();
+            let mut choix = String::new();
+            io::stdin().read_line(&mut choix).unwrap();
+    
+            match choix.trim() {
+                "1" => {
+                    let (vie_hero, vie_ennemi) = combat.lancer();
+                    combat.vie_hero = vie_hero;
+                    combat.vie_ennemi = vie_ennemi;
+                    jeu.hero.vie = vie_hero;
+    
+                    if vie_ennemi <= 0 {
+                        println!("🎉 Tu as vaincu {}!", garde_nom);
+                        // Re-emprunter maintenant que l'ancien est libéré
+                        let quartier = jeu.quartiers.iter_mut()
+                            .find(|q| q.color == quartier_couleur)
+                            .expect("Quartier introuvable");
+                        Combat::supprimer_garde(quartier);
+                        break;
+                    } else if vie_hero <= 0 {
+                        println!("💀 Tu as perdu...");
+                        println!("Vous vous évanouissez.");
+                        jeu.hero.vie = 10;
+                        break;
+                    }
+                },
+                "2" => {
+                    utilisation_objet::utilisation_objet(jeu);
+                },
+                "3" => {
+                    println!("Tu abandonnes le combat.");
+                    jeu.hero.vie = combat.vie_hero;
+                    break;
+                },
+                _ => println!("⛔ Choix invalide."),
+            }
+        }
+    
+        // Sauvegarde finale
+        save::enregistrer_hero(&jeu.hero);
+    }
+    
 }
