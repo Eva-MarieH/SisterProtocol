@@ -18,7 +18,7 @@ impl Jeu {
             })
             .unwrap_or(false)
     }
-    pub fn peut_combatre(&self) -> bool {
+    pub fn peut_combattre(&self) -> bool {
         if self.hero.vie > 0 {
             true
         } else {

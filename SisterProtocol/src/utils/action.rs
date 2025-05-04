@@ -23,7 +23,7 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
             "3" => Action::Parler,
             "4" => Action::Marchander,
             "5" => Action::Hacker,
-           // "6" => Action::Combattre,
+            "6" => Action::Combattre,
             "7" => Action::Quitter,
             _ => {
                 println!("⛔ Action inconnue.");
@@ -46,7 +46,7 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
                 }
             },
             Action::Combattre => {
-                if jeu.peut_combatre() {
+                if jeu.peut_combattre() {
                     Combat::lancer_combat(jeu);
                 }
                 else {
