@@ -3,8 +3,9 @@ use std::io::BufReader;
 use std::path::Path;
 use anyhow::{Context, Result};
 
+use crate::classes::entites::{Machines, Ordinateur, Serveur};
 use crate::classes::quartier::Quartier;
-use crate::classes::personnage::{Hero, Resident, Marchand,PNJs};
+use crate::classes::personnage::{Hero, Resident, Marchand, PNJs};
 use crate::classes::inventaire::Objet;
 use crate::classes::jeu::Jeu;
 
@@ -80,6 +81,46 @@ pub fn charger_marchand_quartier(quartier: &Quartier) -> Marchand {
         .into_iter()
         .find(|m| m.id == quartier.merchant)
         .expect("Aucun marchand correspondant trouvé pour ce quartier")
+}
+
+// Charger le serveur du quartier
+pub fn charger_serveur_quartier(quartier: &Quartier) -> Option<Serveur> {
+    let contenu = fs::read_to_string("assets/saves/Ennemies.json")
+        .context("Erreur de lecture de Ennemies.json").unwrap();
+
+    let machines: Machines = serde_json::from_str(&contenu)
+        .context("Erreur de parsing de Ennemies.json").unwrap();
+
+    let server_id = quartier.server.expect("Aucun serveur");
+
+    machines
+        .servers
+        .into_iter()
+        .find(|m| m.id == server_id)
+}
+
+// Charger le premier ordinateur du quartier
+pub fn charger_premier_ordinateur_quartier(quartier: &Quartier) -> Option<Ordinateur> {
+    let contenu_ordinateurs = fs::read_to_string("assets/saves/Ennemies.json")
+        .context("Erreur de lecture de Ennemies.json").unwrap();
+
+    let machines: Machines = serde_json::from_str(&contenu_ordinateurs)
+        .context("Erreur de parsing de Ennemies.json").unwrap();
+
+    let ids = match quartier.ordinateurs.as_ref(){
+        Some(ids) => ids,
+        None => return None
+    };
+
+    // Filtrer les ordinateurs en fonction des ids
+    let ordinateurs: Vec<Ordinateur> = machines
+        .computers
+        .into_iter()
+        .filter(|ordi| ids.contains(&ordi.id))
+        .collect();
+
+    // Retourner le premier ordinateur, ou None si aucun ordinateur n'est trouvé
+    ordinateurs.first().cloned()
 }
 
 

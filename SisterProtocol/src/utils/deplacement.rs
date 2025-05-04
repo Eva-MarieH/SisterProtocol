@@ -44,7 +44,7 @@ fn peut_se_deplacer(jeu: &Jeu, destination: &str) -> bool {
     let index_destination = ordre_quartiers.iter().position(|&q| q == destination);
 
     match (index_actuel, index_destination) {
-        (Some(i_actuel), Some(i_dest)) if i_dest == i_actuel + 1 => {
+        (Some(i_actuel), Some(i_dest)) if i_dest == i_actuel + 1 =>{
             // Rechercher le quartier actuel par couleur dans un Vec
             let quartier_actuel = jeu
                 .quartiers
@@ -65,13 +65,16 @@ fn peut_se_deplacer(jeu: &Jeu, destination: &str) -> bool {
                 false
             }
         }
+        (Some(i_actuel), Some(i_dest)) if i_dest < i_actuel => {
+            true
+        }
         (Some(i_actuel), Some(i_dest)) if i_dest == i_actuel => {
             println!("ℹ️ Tu es déjà dans le quartier '{}'.", destination);
             false
         }
         _ => {
             println!(
-                "⛔ Tu ne peux pas aller à '{}' depuis '{}'. Suis l'ordre : bleu → vert → jaune → violet → rouge.",
+                "⛔ Tu ne peux pas aller à '{}' depuis '{}'. Suis l'ordre : bleu <-> vert <-> jaune <-> violet <-> rouge.",
                 destination, jeu.quartier_actuel
             );
             false

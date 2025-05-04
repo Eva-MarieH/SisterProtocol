@@ -36,7 +36,14 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
             Action::UtiliserObjet => utilisation_objet::utilisation_objet(jeu),
             Action::Parler => discussion::discussion(jeu),
             Action::Marchander => marchandage::marchandage(jeu),
-            Action::Hacker => hacking::hacking(jeu),
+            Action::Hacker => {
+                if jeu.peut_pirater() {
+                    println!("🧠 Tentative de piratage en cours...");
+                    hacking::hacking(jeu);
+                } else {
+                    println!("🚫 Impossible de pirater : des gardes sont encore présents !");
+                }
+            },
            // Action::Combattre => combat::lancer_combat(),
             Action::Quitter => {
                 save::enregistrer_hero(&jeu.hero);

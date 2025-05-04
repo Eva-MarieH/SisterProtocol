@@ -1,7 +1,7 @@
 use std::fs::{File, OpenOptions};
 use std::io::Read;
 use serde_json;
-use crate::classes::personnage::{Hero, Marchand, PNJs};
+use crate::classes::personnage::{Boss, Hero, Marchand, PNJs};
 use crate::classes::quartier::Quartier;
 
 pub fn enregistrer_hero(hero: &Hero) {
@@ -15,47 +15,48 @@ pub fn enregistrer_hero(hero: &Hero) {
 }
 
 pub fn enregistrer_marchand(marchand_id: u8, new_marchand: &Marchand) {
-    // Charger le fichier PNJs.json
-    let mut file =  File::create("assets/saves/PNJs.json")
-        .map_err(|e| format!("Erreur lors de la création du fichier PNJs.json : {}", e)).unwrap();
-
-
+    // Lire le fichier existant
     let mut contenu = String::new();
-    file.read_to_string(&mut contenu).unwrap();
 
-    // Désérialiser le contenu JSON dans une structure PNJs
-    let mut pnjs: PNJs = match serde_json::from_str(&contenu) {
-        Ok(p) => p,
-        Err(_) => {
-            // Si le fichier est vide ou mal formaté, on initialise une nouvelle structure PNJs
-            PNJs { merchants: Vec::new(), residents: Vec::new() }
-        }
-    };
+    if let Ok(mut file_lecture) = File::open("assets/saves/PNJs.json") {
+        file_lecture.read_to_string(&mut contenu).unwrap();
+    }
 
-    // Trouver le marchand avec le bon ID et mettre à jour ses données
+    // Désérialiser ou initialiser si erreur
+    let mut pnjs: PNJs = serde_json::from_str(&contenu).unwrap_or_else(|_| PNJs {
+        merchants: Vec::new(),
+        residents: Vec::new(),
+        guards: Vec::new(),
+        boss: Boss {
+            name: "N/A".to_string(),
+            alias: "N/A".to_string(),
+            force: 0,
+        },
+    });
+
+    // Ajouter ou mettre à jour le marchand
     if let Some(marchand) = pnjs.merchants.iter_mut().find(|m| m.id == marchand_id) {
-        // Remplacer le marchand existant par le nouveau marchand
         *marchand = new_marchand.clone();
     } else {
-        // Si le marchand n'existe pas, ajouter le nouveau marchand
         pnjs.merchants.push(new_marchand.clone());
     }
 
-    // Ouvrir le fichier en mode écriture, écraser son contenu existant
-    let file = OpenOptions::new()
+    // Écriture dans le fichier (troncature)
+    let file_ecriture = OpenOptions::new()
         .write(true)
-        .truncate(true)  // Efface l'ancien contenu du fichier
-        .open("assets/saves/PNJs.json").unwrap();
+        .truncate(true)
+        .create(true)
+        .open("assets/saves/PNJs.json")
+        .expect("Erreur lors de l'ouverture du fichier en écriture");
 
-    // Sérialiser et réécrire les données mises à jour dans le fichier PNJs.json
-    serde_json::to_writer_pretty(file, &pnjs)
-        .map_err(|_e| format!("Erreur lors de la sérialisation des pnj")).unwrap();
+    serde_json::to_writer_pretty(file_ecriture, &pnjs)
+        .expect("Erreur lors de la sérialisation des PNJs");
 }
 
 pub fn enregistrer_quartiers(quartiers: &Vec<Quartier>) {
     // Ouvre ou crée le fichier Quartiers.json pour y écrire
-    let file = File::create("assets/saves/Districts.json")
-        .map_err(|e| format!("Erreur lors de la création du fichier Districts.json : {}", e)).unwrap();
+    let file = File::create("assets/saves/District.json")
+        .map_err(|e| format!("Erreur lors de la création du fichier District.json : {}", e)).unwrap();
     
     // Sérialiser l'objet quartiers en JSON et écrire dans le fichier
     serde_json::to_writer_pretty(file, quartiers)

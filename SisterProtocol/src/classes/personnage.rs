@@ -7,7 +7,6 @@ pub struct Hero {
     pub name: String,
     pub vie: i32,
     pub force: i32,
-    pub intelligence: i32,
     pub argent: i32,
     pub position: String,
     pub inventory: Vec<ObjetQuantifie>,
@@ -22,17 +21,17 @@ impl Hero {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Garde {
+    pub name: String,
     pub id: u8,
-    pub nom: String,
-    pub vie: i32,
     pub force: i32,
-    pub loot: Vec<Objet>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct PNJs {
     pub merchants: Vec<Marchand>,
     pub residents: Vec<Resident>,
+    pub guards: Vec<Garde>,
+    pub boss: Boss,
 }
 
 #[derive(Clone,Debug, Deserialize, Serialize )]
@@ -56,8 +55,9 @@ pub struct Dialogue {
     pub text: String,
 }
 
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Boss {
-    pub nom: String,
-    pub vie: i32,
+    pub name: String,
+    pub alias: String,
     pub force: i32,
 }

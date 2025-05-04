@@ -1,18 +1,13 @@
-use std::fs;
+use std::{collections::HashMap, fs, io::{self, Write}}; 
 use anyhow::{Result, Context};
-use std::io::{self, Write};
-use rand::rng;
-use rand::seq::IndexedMutRandom;
+use rand::{rng, seq::IndexedMutRandom};
 
-//
 // Mini-jeu Mastermind Binaire
-//
-
 pub fn mastermind_binaire_random() -> Result<()> {
-    let fichier = fs::read_to_string("assets/minigames/binaire.json")
+    let fichier = fs::read_to_string("assets/data/minigames/BinaryMastermind.json")
         .context("Impossible de lire binaire.json")?;
     let mut all_solutions: Vec<&str> = serde_json::from_str(&fichier)
-        .context("Format JSON invalide")?;
+        .context("Format JSON invalide binaire")?;
 
     let solution = all_solutions
         .choose_mut(&mut rng())
@@ -23,37 +18,38 @@ pub fn mastermind_binaire_random() -> Result<()> {
     Ok(())
 }
 
-//
 // Mini-jeu Mastermind Couleur
-//
-
-
-pub fn mastermind_couleur_random() -> Result<()> {
-    let content = fs::read_to_string("assets/minigames/couleur.json")
+pub fn mastermind_couleur_random()-> Result<()> {
+    // Lire le fichier JSON
+    let content = fs::read_to_string("assets/data/minigames/ColoredMastermind.json")
         .context("Impossible de lire couleur.json")?;
-    let mut all_solutions: Vec<&str> = serde_json::from_str(&content)
-        .context("Format JSON invalide")?;
 
+    // Désérialiser le contenu JSON dans un vecteur de paires de couleurs
+    let mut all_solutions: Vec<Vec<String>> = serde_json::from_str(&content)
+        .context("Format JSON invalide couleur")?;
+
+    // Créer un générateur RNG
+    let mut rng_gen = rng();
+
+    // Choisir une solution aléatoire parmi les solutions disponibles
     let solution = all_solutions
-        .choose_mut(&mut rng())
+        .choose_mut(&mut rng_gen)
         .context("Pas de combinaison disponible")?;
 
-
     println!("[Mastermind Couleur]");
+
+    // Passer la référence de la solution à la fonction mastermind_couleur
     mastermind_couleur(&solution);
 
     Ok(())
 }
 
-//
 // Mini-jeu Pendu
-//
-
 pub fn pendu_random() -> Result<()> {
-    let content = fs::read_to_string("assets/minigames/pendu.json")
+    let content = fs::read_to_string("assets/data/minigames/hangman.json")
         .context("Impossible de lire pendu.json")?;
     let mut mots: Vec<String> = serde_json::from_str(&content)
-        .context("Format JSON invalide")?;
+        .context("Format JSON invalide pendu")?;
 
     let mot = mots
         .choose_mut(&mut rng())
@@ -93,10 +89,19 @@ fn mastermind_binaire(solution: &str) {
             .count();
 
         if exact == len {
-            println!("✅ Gagné ! La solution était bien {}", solution);
+            println!("\x1b[32m✅ Gagné ! La solution était bien {}\x1b[0m", solution);
             return;
         } else {
-            println!("🔢 {} bien placé(s).", exact);
+            // Coloration du retour
+            let mut colored_guess = String::new();
+            for (s, g) in solution.chars().zip(guess.chars()) {
+                if s == g {
+                    colored_guess.push_str(&format!("\x1b[32m{}\x1b[0m", g)); // Vert
+                } else {
+                    colored_guess.push_str(&format!("\x1b[31m{}\x1b[0m", g)); // Rouge
+                }
+            }
+            println!("🔢 {} bien placé(s) → {}", exact, colored_guess);
         }
 
         essais -= 1;
@@ -105,7 +110,7 @@ fn mastermind_binaire(solution: &str) {
     println!("💀 Perdu ! La solution était : {}", solution);
 }
 
-fn mastermind_couleur(solution: &str) {
+fn mastermind_couleur(solution: &Vec<String>) {
     let len = solution.len();
     let mut tentative = String::new();
     let mut essais = 10;
@@ -114,23 +119,49 @@ fn mastermind_couleur(solution: &str) {
 
     while essais > 0 {
         print!("({} restant) > ", essais);
-        io::stdout().flush().unwrap();
+        io::stdout().flush().unwrap();  // S'assurer que le prompt est bien affiché
         tentative.clear();
         io::stdin().read_line(&mut tentative).unwrap();
 
-        let guess: Vec<&str> = tentative.trim().split_whitespace().collect();
+        let guess: Vec<String> = tentative.trim().split_whitespace().map(|s| s.to_string()).collect();
 
-        if guess.len() != 2 {
-            println!("⛔ Entrée invalide");
+        // Vérification que l'utilisateur a entré le bon nombre de couleurs
+        if guess.len() != len {
+            println!("⛔ Entrée invalide. Il faut entrer exactement {} couleur(s).", len);
             continue;
         }
 
-        let exact = solution.chars().zip(guess).filter(|(a, b)| a.to_string() == *b).count();
+        // Calcul des couleurs bien placées
+        let exact = solution.iter().zip(guess.iter()).filter(|(a, b)| a == b).count();
+
+        // Calcul des couleurs présentes mais mal placées
+        let mut solution_map = HashMap::new();
+        let mut guess_map = HashMap::new();
+
+        // Comptabilisation des couleurs dans la solution et la tentative
+        for i in 0..len {
+            *solution_map.entry(&solution[i]).or_insert(0) += 1;
+            *guess_map.entry(&guess[i]).or_insert(0) += 1;
+        }
+
+
+        // Si la tentative est correcte
         if exact == len {
             println!("🎉 Bravo ! La combinaison était : {:?}", solution);
             return;
         } else {
-            println!("🎨 {} couleur(s) bien placée(s).", exact);
+            // Affichage des couleurs avec formatage : rouge pour incorrect, vert pour correct
+            print!("Essai : ");
+            for (i, color) in guess.iter().enumerate() {
+                if solution[i] == *color {
+                    // Vert si la couleur est bien placée
+                    print!("\x1b[32m{}\x1b[0m ", color);  // Vert
+                } else {
+                    // Rouge si la couleur est incorrecte
+                    print!("\x1b[31m{}\x1b[0m ", color);  // Rouge
+                }
+            }
+            println!();
         }
 
         essais -= 1;

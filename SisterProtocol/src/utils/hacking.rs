@@ -1,96 +1,89 @@
 use crate::utils::minijeux::{mastermind_binaire_random, mastermind_couleur_random, pendu_random};
-use crate::classes::entites::EnnemiHackable;
 use crate::utils::affichage::Affichage;
+use crate::utils::ini;
+
+use crate::classes::entites::EnnemiHackable;
 use crate::classes::jeu::Jeu;
 use crate::classes::quartier::Quartier;
 
-use rand::Rng;
-use anyhow::{Result, Context};
+use rand::{Rng,rng};
 
 pub fn hacking(jeu: &mut Jeu) {
-    let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
-        .context("Quartier actuel introuvable").unwrap();
-    
-    match prochain_ennemi_hackable(quartier_actuel).unwrap() {
-        Some(ennemi) => {
-            match ennemi {
-                EnnemiHackable::Ordinateur { id, name } => {
-                    println!("💻 Tu attaques le terminal de sécurité #{id} : \"{name}\"");
-                    let jeu_random = rand::rng().random_range(0..2); // Utilisation de random_range
-                    let result = if jeu_random == 0 {
-                        mastermind_binaire_random()
-                    } else {
-                        mastermind_couleur_random()
-                    };
-                    Affichage::afficher_resultat_hacking(&result, &name);
-                    if result.is_ok() {
-                        supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Ordinateur { id, name }).unwrap();
-                    }
-                }
-                EnnemiHackable::Serveur { id, name } => {
-                    println!("🧠 ACCÈS AU SERVEUR CENTRAL #{id} : \"{name}\" EN COURS...");
-                    let jeu_random = rand::rng().random_range(0..2); // Utilisation de random_range
-                    let result1 = if jeu_random == 0 {
-                        mastermind_binaire_random()
-                    } else {
-                        mastermind_couleur_random()
-                    };
+    let quartier_actuel = jeu.quartiers.iter_mut()
+        .find(|q| q.color == jeu.quartier_actuel)
+        .expect("Quartier actuel introuvable");
 
-                    Affichage::afficher_resultat_hacking(&result1, &name);
+    match prochain_ennemi_hackable(quartier_actuel) {
+        Some(EnnemiHackable::Ordinateur(ordi)) => {
+            println!("💻 Terminal de sécurité #{} : \"{}\"", ordi.id, ordi.name);
+            let jeu_random = rng().random_range(0..=1);
+            let result = if jeu_random == 0 {
+                mastermind_binaire_random()
+            } else {
+                mastermind_couleur_random()
+            };
+            Affichage::afficher_resultat_hacking(&result, &ordi.name);
+            if result.is_ok() {
+                supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Ordinateur(ordi));
+            }
+        }
 
-                    if result1.is_ok() {
-                        println!("🔐 Authentification partielle réussie... Lancement du système de sécurité !");
-                        let result2 = pendu_random();
-                        if result2.is_ok() {
-                            println!("🎉 TU AS VAINCU LE SERVEUR !");
-                            supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Serveur { id, name }).unwrap();
-                        } else {
-                            Affichage::afficher_resultat_hacking(&result2, &name);
-                        }
-                    }
+        Some(EnnemiHackable::Serveur(serv)) => {
+            println!("🧠 Serveur Central #{} : \"{}\"", serv.id, serv.name);
+            let jeu_random = rng().random_range(0..=1);
+            let result1 = if jeu_random == 0 {
+                mastermind_binaire_random()
+            } else {
+                mastermind_couleur_random()
+            };
+            Affichage::afficher_resultat_hacking(&result1, &serv.name);
+
+            if result1.is_ok() {
+                println!("🔐 Authentification partielle réussie... lancement du système de sécurité !");
+                let result2 = pendu_random();
+                Affichage::afficher_resultat_hacking(&result2, &serv.name);
+                if result2.is_ok() {
+                    println!("🎉 TU AS VAINCU LE SERVEUR!");
+                    println!("🚪 Prochain quartier dévérouillé...");
+                    supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Serveur(serv));
                 }
             }
         }
-        None => println!("✅ Tous les ennemis ont été vaincus !"),
+
+        None => println!("✅ SYSTEME DE SECURITE HS"),
     }
 }
 
-fn supprimer_ennemi_hackable(quartier_actuel: &mut Quartier, ennemi: &EnnemiHackable) -> Result<()> {
+fn supprimer_ennemi_hackable(quartier_actuel: &mut Quartier, ennemi: &EnnemiHackable) {
     match ennemi {
-        EnnemiHackable::Ordinateur { id, .. } => {
+        EnnemiHackable::Ordinateur(ordi) => {
             if let Some(ordinateurs) = &mut quartier_actuel.ordinateurs {
-                if let Some(pos) = ordinateurs.iter().position(|&x| x == *id) {
+                if let Some(pos) = ordinateurs.iter().position(|&id| id == ordi.id) {
                     ordinateurs.remove(pos);
-                    // Si la liste des ordinateurs devient vide, on met la valeur à None
-                    if ordinateurs.is_empty() {
-                        quartier_actuel.ordinateurs = None;
-                    }
+                }
+                if ordinateurs.is_empty() {
+                    quartier_actuel.ordinateurs = None;
                 }
             }
         }
-        EnnemiHackable::Serveur { id, .. } => {
-            if quartier_actuel.server == Some(*id) {
-                quartier_actuel.server = None;
-            }
+        EnnemiHackable::Serveur(_) => {
+            quartier_actuel.server = None;
         }
     }
-    
-    Ok(())
 }
 
-pub fn prochain_ennemi_hackable(quartier_actuel: &Quartier) -> Result<Option<EnnemiHackable>> {
-    if let Some(ordinateurs) = &quartier_actuel.ordinateurs {
-        if let Some(&id) = ordinateurs.get(0) {
-            // Retourne le premier ordinateur de la liste comme ennemi hackable
-            return Ok(Some(EnnemiHackable::Ordinateur { id, name: format!("Ordinateur #{id}") }));
+pub fn prochain_ennemi_hackable(quartier_actuel: &Quartier) -> Option<EnnemiHackable> {
+    // Charger les ordinateurs du quartier
+    if let Some(ordinateur) = ini::charger_premier_ordinateur_quartier(quartier_actuel){
+        return Some(EnnemiHackable::Ordinateur(ordinateur))
+    }
+
+    // Charger le serveur du quartier
+    if let Some(_) = quartier_actuel.server {
+        if let Some(serv) = ini::charger_serveur_quartier(quartier_actuel) {
+            return Some(EnnemiHackable::Serveur(serv))
         }
     }
 
-    if let Some(server_id) = quartier_actuel.server {
-        // Si un serveur existe, le retourne comme ennemi hackable
-        return Ok(Some(EnnemiHackable::Serveur { id: server_id, name: "Serveur Central".to_string() }));
-    }
-
-    // Si aucun ennemi hackable n'est trouvé, retourne None
-    Ok(None)
+    None
 }

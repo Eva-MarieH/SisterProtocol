@@ -7,41 +7,51 @@ use crate::utils::action;
 use anyhow::{Result,Context};
 use utils::affichage::Affichage;
 use std::io::{self, Write};
+use std::path::Path;
 pub struct EtatCombat;
 
 fn main() -> Result<()> {
-    loop{
-
-        println!("Bienvenue dans SisterProtocol., Que voulez-vous faire ? ");
-        print!("1. Nouvelle partie\n2. Charger une partie\n3. Quitter\n> ");
+    println!("\nBienvenue dans SisterProtocol.");
+    loop {
+        let save_existe = Path::new("assets/saves").exists();
+        
+        println!("\nQue voulez-vous faire ?");
+        println!("1. Nouvelle partie");
+        println!("2. Charger une partie");
+        println!("3. Quitter");
+        print!("> ");
         io::stdout().flush().unwrap();
+    
         let mut choix = String::new();
         io::stdin().read_line(&mut choix).unwrap();
-
-        // Gérer l'action en fonction du choix
+    
         match choix.trim() {
-            "1" => {   
+            "1" => {
                 let mut jeu = initialiser_jeu();
                 Affichage::afficher_message("Jeu initialisé");
                 action::boucle_jeu(&mut jeu);
-            },
-            "2" => {
+            }
+            "2" if save_existe => {
                 let mut jeu = continue_jeu();
                 Affichage::afficher_message("Jeu chargé");
                 Affichage::afficher_hero(&jeu.hero);
-                let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
-                 .context("Quartier actuel introuvable").unwrap();
+                let quartier_actuel = jeu.quartiers.iter_mut()
+                    .find(|quartier| quartier.color == jeu.quartier_actuel)
+                    .context("Quartier actuel introuvable")?;
                 Affichage::afficher_quartier(quartier_actuel);
                 action::boucle_jeu(&mut jeu);
             }
+            "2" => {
+                println!("\n⛔ Aucun fichier de sauvegarde trouvé.");
+            }
             "3" => {
+                println!("\n👋 Merci d'avoir joué à SisterProtocol !");
                 break;
             }
             _ => {
-                println!("⛔ Action inconnue.");
+                println!("\n⛔ Action inconnue.");
             }
         }
     }
-
-    Ok(())
+    Ok(())    
 }

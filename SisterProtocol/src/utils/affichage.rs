@@ -21,7 +21,7 @@ impl Affichage {
     
     pub fn afficher_quartier(quartier: &Quartier) {
         println!("\n=== Quartier: {} ===", quartier.color);
-        println!("Gardes: {}", quartier.enemies.len());
+        println!("Gardes: {}", quartier.guards.len());
         match &quartier.ordinateurs {
             Some(ordinateurs) => {
                 if ordinateurs.is_empty() {
@@ -73,7 +73,6 @@ impl Affichage {
         println!("Nom: {}", hero.name);
         println!("Vie: {}", hero.vie);
         println!("Force: {}", hero.force);
-        println!("Intelligence: {}", hero.intelligence);
         println!("Argent: {}", hero.argent);
         println!("Position: {}", hero.position);
         println!("Inventaire: {} objets", hero.inventory.len());
