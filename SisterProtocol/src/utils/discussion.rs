@@ -1,6 +1,8 @@
-use std::{fs, io::{self, Write}};
+use std::io::{self, Write};
+use anyhow::Context;
 
-use crate::classes::personnage::{Resident, Hero};
+use crate::classes::personnage::Resident;
+use crate::classes::jeu::Jeu;
 use crate::utils::affichage::Affichage;
 use crate::utils::ini;
 
@@ -78,20 +80,18 @@ pub fn discuter_avec_resident(residents: &[Resident]) {
 }
 
 // Fonction principale pour démarrer la discussion
-pub fn discussion(hero: &Hero) {
-    match ini::charger_quartier(hero) {
-        Ok(q) => {
-            // Charger les résidents du quartier
-            let citoyens = ini::charger_residents_quartier(&q).unwrap();
+pub fn discussion(jeu: &mut Jeu) {
+    let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
+    .context("Quartier actuel introuvable").unwrap();
 
-            // Afficher les citoyens (résidents)
-            if citoyens.is_empty() {
-                println!("Aucun citoyen dans ce quartier.");
-            } else {
-                // Permettre au joueur de discuter avec les résidents
-                discuter_avec_resident(&citoyens);
-            }
-        },
-        _ => println!("Quartier introuvable."),
+    // Charger les résidents du quartier
+    let citoyens = ini::charger_residents_quartier(&quartier_actuel).unwrap();
+
+    // Afficher les citoyens (résidents)
+    if citoyens.is_empty() {
+        println!("Aucun citoyen dans ce quartier.");
+    } else {
+        // Permettre au joueur de discuter avec les résidents
+        discuter_avec_resident(&citoyens);
     }
 }

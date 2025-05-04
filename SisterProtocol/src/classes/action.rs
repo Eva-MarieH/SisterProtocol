@@ -1,7 +1,9 @@
 pub enum Action {
-    Acces(String),
-    Dialogue(String),
-    Marchandage(String),
-    Fouille(String),
-    Combat,
+    Deplacement,
+    UtiliserObjet,
+    Parler,
+    Marchander,
+    Hacker,
+    Combattre,
+    Quitter,
 }

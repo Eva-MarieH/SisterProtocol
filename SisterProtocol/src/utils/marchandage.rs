@@ -1,12 +1,12 @@
-use std::fs;
 use std::io::{self, Write};
-use anyhow::{Result, Context};
+use anyhow::Context;
 
-use crate::classes::inventaire::{Objet, TypeObjet, ObjetQuantifie, Inventaire};
+use crate::classes::inventaire::{ TypeObjet, ObjetQuantifie, Inventaire};
 use crate::classes::personnage::{Hero, Marchand};
-use crate::classes::quartier::{self, Quartier};
+use crate::classes::jeu::Jeu;
 use crate::utils::affichage::Affichage;
 use crate::utils::ini;
+
 
 
 fn ajouter_a_inventaire(inventaire: &mut Inventaire, id: u8, quantite: u32) {
@@ -137,19 +137,18 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
 }
 
 
-pub fn marchandage(hero: &mut Hero) {
-    match ini::charger_quartier(hero) {
-        Ok(q) => {
-            match ini::charger_marchand_quartier(&q) {
-                Ok(Some(mut marchand)) => {
-                    discuter_avec_marchand(hero, &mut marchand);
-                }
-                Ok(None) => println!("Il n'y a pas de marchand dans ce quartier."),
-                Err(e) => println!("Erreur lors du chargement du marchand : {}", e),
-            }
+pub fn marchandage(jeu:&mut Jeu) {
+    let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
+    .context("Quartier actuel introuvable").unwrap();
+
+    match ini::charger_marchand_quartier(&quartier_actuel){
+        Ok(Some(mut marchand)) => {
+            discuter_avec_marchand(&mut jeu.hero, &mut marchand);
         }
-        _ => println!("Quartier introuvable."),
+        Ok(None) => println!("Il n'y a pas de marchand dans ce quartier."),
+        Err(e) => println!("Erreur lors du chargement du marchand : {}", e),
     }
+    
 }
 
 

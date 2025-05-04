@@ -1,10 +1,8 @@
-use serde::Deserialize;
 use std::fs;
 use anyhow::{Result, Context};
-use std::collections::HashSet;
 use std::io::{self, Write};
 use rand::rng;
-use rand::seq::{IndexedMutRandom, SliceRandom};
+use rand::seq::IndexedMutRandom;
 
 //
 // Mini-jeu Mastermind Binaire

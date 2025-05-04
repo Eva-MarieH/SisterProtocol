@@ -72,7 +72,7 @@ pub fn charger_residents_quartier(quartier: &Quartier) -> Result<Vec<Resident>> 
 
     // Filtrer les résidents en fonction des IDs du quartier
     let citoyens = residents.into_iter()
-        .filter(|r| quartier.residents.contains(&(r.id as usize)))
+        .filter(|r| quartier.residents.contains(&(r.id as u8)))
         .collect();
 
     Ok(citoyens)
@@ -103,11 +103,11 @@ fn charger_hero() -> Result<Hero> {
     Ok(hero)
 }
 
-pub fn initialiser_jeu() -> Result<Jeu> {
+pub fn initialiser_jeu() -> Jeu {
     copier_dossier_data().expect("Erreur lors de la copie du dossier data");
 
-    let quartiers = charger_quartiers()?;
-    let hero = charger_hero()?;
+    let quartiers = charger_quartiers().unwrap();
+    let hero = charger_hero().unwrap();
     let quartier_actuel = hero.position.clone();
 
     let jeu = Jeu {
@@ -117,5 +117,5 @@ pub fn initialiser_jeu() -> Result<Jeu> {
 
     };
 
-    Ok(jeu)
+    jeu
 }

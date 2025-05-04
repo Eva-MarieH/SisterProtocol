@@ -23,7 +23,7 @@ impl Affichage {
     pub fn afficher_quartier(quartier: &Quartier) {
         println!("\n=== Quartier: {} ===", quartier.color);
         println!("Gardes: {}", quartier.enemies.len());
-        match &quartier.pc {
+        match &quartier.ordinateurs {
             Some(ordinateurs) => println!("Ordinateurs: {}", ordinateurs.len()),
             None => println!("Ordinateurs: 0"),
         }
@@ -35,7 +35,6 @@ impl Affichage {
         }
         println!("Marchands: Présent");
         println!("PNJs: {}", quartier.residents.len());
-        println!("Unlocked: {}", quartier.unlocked);
     }
 
     // Afficher les dialogues d'un résident en fonction du contexte
@@ -54,6 +53,13 @@ impl Affichage {
             println!("{}", dialogue.text); // Afficher le texte du dialogue
         } else {
             println!("Aucun dialogue pour ce contexte.");
+        }
+    }
+
+    pub fn afficher_resultat_hacking(result: &Result<(), anyhow::Error>, cible: &str) {
+        match result {
+            Ok(_) => println!("✅ Tu as neutralisé {}", cible),
+            Err(e) => println!("💀 Échec contre {} : {}", cible, e),
         }
     }
     
@@ -112,5 +118,17 @@ impl Affichage {
             }
         }
     }
+
+    pub fn afficher_actions() {
+        println!("\n🕹️  Actions possibles :");
+        println!("1. Se déplacer vers un autre quartier");
+        println!("2. Utiliser un objet de l'inventaire");
+        println!("3. Parler à un citoyen");
+        println!("4. Marchander");
+        println!("5. Hacker");
+        println!("6. Combattre");
+        println!("7. Quitter le jeu");
+    }
+    
     
 }
