@@ -1,7 +1,7 @@
 use std::io::{self, Write};
 use anyhow::Context;
 
-use crate::classes::inventaire::{ TypeObjet, ObjetQuantifie, Inventaire};
+use crate::classes::inventaire::{ TypeObjet, ObjetQuantifie};
 use crate::classes::personnage::{Hero, Marchand};
 use crate::classes::jeu::Jeu;
 use crate::utils::affichage::Affichage;
@@ -9,21 +9,21 @@ use crate::utils::ini;
 
 
 
-fn ajouter_a_inventaire(inventaire: &mut Inventaire, id: u8, quantite: u32) {
-    if let Some(obj) = inventaire.objets.iter_mut().find(|o| o.id == id) {
+fn ajouter_a_inventaire(inventaire: &mut Vec<ObjetQuantifie>, id: u8, quantite: u32) {
+    if let Some(obj) = inventaire.iter_mut().find(|o| o.id == id) {
         obj.quantity += quantite;
     } else {
-        inventaire.objets.push(ObjetQuantifie { id, quantity: quantite });
+        inventaire.push(ObjetQuantifie { id, quantity: quantite });
     }
 }
 
 
-fn retirer_du_inventaire(inventaire: &mut Inventaire, id: u8, quantite: u32) -> bool {
-    if let Some(pos) = inventaire.objets.iter().position(|o| o.id == id && o.quantity >= quantite) {
-        let obj = &mut inventaire.objets[pos];
+fn retirer_du_inventaire(inventaire: &mut Vec<ObjetQuantifie>, id: u8, quantite: u32) -> bool {
+    if let Some(pos) = inventaire.iter().position(|o| o.id == id && o.quantity >= quantite) {
+        let obj = &mut inventaire[pos];
         obj.quantity -= quantite;
         if obj.quantity == 0 {
-            inventaire.objets.remove(pos);
+            inventaire.remove(pos);
         }
         true
     } else {
@@ -41,7 +41,7 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
     };
 
     print!("Vous parlerz avec {}.\n", marchand.name);
-    
+
     Affichage::afficher_dialogue_marchand(marchand, "start");
 
     loop {
@@ -58,7 +58,7 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
         match choix.trim() {
             "1" => {
                 println!("\n--- Tes objets à vendre ---");
-                Affichage::afficher_inventaire_filtre(&hero.inventaire.objets, &objets, true);
+                Affichage::afficher_inventaire_filtre(&hero.inventory, &objets, true);
                 print!("ID de l’objet à vendre : ");
                 io::stdout().flush().unwrap();
                 let mut id_str = String::new();
@@ -74,7 +74,7 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
                         continue;
                     }
 
-                    if retirer_du_inventaire(&mut hero.inventaire, id, 1) {
+                    if retirer_du_inventaire(&mut hero.inventory, id, 1) {
                         if marchand.money >= obj.prix {
                             hero.argent += obj.prix;
                             marchand.money -= obj.prix;
@@ -82,7 +82,7 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
                             println!("Vendu pour {} crédits.", obj.prix);
                         } else {
                             println!("Vendeur trop pauvre.");
-                            ajouter_a_inventaire(&mut hero.inventaire, id, 1); // Rembourse
+                            ajouter_a_inventaire(&mut hero.inventory, id, 1); // Rembourse
                         }
                     } else {
                         println!("Tu ne possèdes pas cet objet.");
@@ -118,7 +118,7 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
                     if retirer_du_inventaire(&mut marchand.inventory, id, 1) {
                         hero.argent -= obj.prix;
                         marchand.money += obj.prix;
-                        ajouter_a_inventaire(&mut hero.inventaire, id, 1);
+                        ajouter_a_inventaire(&mut hero.inventory, id, 1);
                         println!("Achat réussi !");
                     } else {
                         println!("Objet non disponible chez le marchand.");

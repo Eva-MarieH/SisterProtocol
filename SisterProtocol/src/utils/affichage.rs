@@ -1,7 +1,7 @@
 use crate::classes::jeu::Jeu;
 use crate::classes::quartier::Quartier;
 use crate::classes::personnage::{Resident, Marchand, Hero};
-use crate::classes::inventaire::{Objet, Inventaire, TypeObjet, ObjetQuantifie};
+use crate::classes::inventaire::{Objet, TypeObjet, ObjetQuantifie};
 use crate::utils::ini;
 
 pub struct Affichage;
@@ -17,7 +17,7 @@ impl Affichage {
         for quartier in &jeu.quartiers {
             println!("- Quartier: {}", quartier.color);
         }
-        println!("- Héro: {}", jeu.hero.nom);
+        println!("- Héro: {}", jeu.hero.name);
     }
     
     pub fn afficher_quartier(quartier: &Quartier) {
@@ -65,19 +65,19 @@ impl Affichage {
     
     pub fn afficher_hero(hero: &Hero) {
         println!("\n=== Héro ===");
-        println!("Nom: {}", hero.nom);
+        println!("Nom: {}", hero.name);
         println!("Vie: {}", hero.vie);
         println!("Force: {}", hero.force);
         println!("Intelligence: {}", hero.intelligence);
         println!("Argent: {}", hero.argent);
         println!("Position: {}", hero.position);
-        println!("Inventaire: {} objets", hero.inventaire.objets.len());
+        println!("Inventaire: {} objets", hero.inventory.len());
     }
 
 
 
     // Fonction pour afficher les objets de l'inventaire
-    pub fn afficher_inventaire(inventaire: &Inventaire) {
+    pub fn afficher_inventaire(inventaire: &Vec<ObjetQuantifie>) {
         let objets = match ini::charger_objets() {
             Ok(objs) => objs,
             Err(_) => {
@@ -87,7 +87,7 @@ impl Affichage {
         };
     
         println!("[Inventaire]");
-        for oq in &inventaire.objets {
+        for oq in inventaire {
             if let Some(objet) = objets.iter().find(|o| o.id == oq.id) {
                 let type_str = match objet.type_objet {
                     TypeObjet::Nourriture => "Nourriture",

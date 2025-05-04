@@ -17,7 +17,7 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
 
     println!("📦 Objets utilisables dans l'inventaire :");
 
-    for (i, obj_quantifie) in jeu.hero.inventaire.objets.iter().enumerate() {
+    for (i, obj_quantifie) in jeu.hero.inventory.iter().enumerate() {
         if let Some(objet_info) = objets_disponibles.iter().find(|o| o.id == obj_quantifie.id) {
             match objet_info.type_objet {
                 TypeObjet::Nourriture | TypeObjet::Amelioration => {
@@ -70,7 +70,7 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
                 "🍽️ {} utilisé. Vie : {} → {}",
                 objet.nom, vie_avant, jeu.hero.vie
             );
-            retirer_objet(&mut jeu.hero.inventaire.objets, objet.id);
+            retirer_objet(&mut jeu.hero.inventory, objet.id);
         }
         TypeObjet::Amelioration => {
             if let Some(am) = &jeu.hero.amelioration {
@@ -80,7 +80,7 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
                     am.nom, am.effet
                 );
                 // Remettre l'ancienne amélioration dans l'inventaire
-                ajouter_objet(&mut jeu.hero.inventaire.objets, am.id);
+                ajouter_objet(&mut jeu.hero.inventory, am.id);
             }
             println!(
                 "🛠️ {} équipé. Force : {} → {}",
@@ -90,7 +90,7 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
             );
             jeu.hero.force += objet.effet;
             jeu.hero.amelioration = Some(objet.clone());
-            retirer_objet(&mut jeu.hero.inventaire.objets, objet.id);
+            retirer_objet(&mut jeu.hero.inventory, objet.id);
         }
         _ => {}
     }

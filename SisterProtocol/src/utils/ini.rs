@@ -33,31 +33,31 @@ fn copier_dossier_data() -> std::io::Result<()> {
 /// Charge les objets
 pub fn charger_objets() -> Result<Vec<Objet>> {
     let contenu = fs::read_to_string("assets/saves/Objects.json")
-        .context("Impossible de lire le fichier Objects.json").unwrap();
+        .context("Impossible de lire le fichier Objects.json")?;
 
     let objets: Vec<Objet> = serde_json::from_str(&contenu)
-        .context("Erreur lors du parsing de Objects.json").unwrap();
+        .context("Erreur lors du parsing de Objects.json")?;
 
     Ok(objets)
 }
 
 /// Charge les quartiers (chaque Quartier contient déjà ses PNJ, ennemis, etc.)
 fn charger_quartiers() -> Result<Vec<Quartier>> {
-    let file = File::open("assets/saves/District.json").unwrap();
+    let file = File::open("assets/saves/District.json")
+        .context("Erreur lors de l'ouverture du fichier District.json")?;
     let reader = BufReader::new(file);
-    let quartiers = serde_json::from_reader(reader)?;
+    let quartiers = serde_json::from_reader(reader)
+        .context("Erreur lors du parsing de District.json")?;
     Ok(quartiers)
 }
 
 // Charger les résidents du quartier
 pub fn charger_residents_quartier(quartier: &Quartier) -> Result<Vec<Resident>> {
-    // Lire les résidents depuis le fichier JSON
     let contenu_residents = fs::read_to_string("assets/PNJs.json")
-        .context("Erreur de lecture de PNJs.json").unwrap();
+        .context("Erreur de lecture de PNJs.json")?;
     let residents: Vec<Resident> = serde_json::from_str(&contenu_residents)
-        .context("Erreur de parsing de PNJs.json").unwrap();
+        .context("Erreur de parsing de PNJs.json")?;
 
-    // Filtrer les résidents en fonction des IDs du quartier
     let citoyens = residents.into_iter()
         .filter(|r| quartier.residents.contains(&(r.id as u8)))
         .collect();
@@ -67,14 +67,12 @@ pub fn charger_residents_quartier(quartier: &Quartier) -> Result<Vec<Resident>> 
 
 // Charger le marchand du quartier
 pub fn charger_marchand_quartier(quartier: &Quartier) -> Result<Option<Marchand>> {
-    // Lire les PNJs depuis le fichier JSON
     let contenu = fs::read_to_string("assets/PNJs.json")
-        .context("Erreur de lecture de PNJs.json").unwrap();
+        .context("Erreur de lecture de PNJs.json")?;
 
     let marchands: Vec<Marchand> = serde_json::from_str(&contenu)
-        .context("Erreur de parsing de PNJs.json").unwrap();
+        .context("Erreur de parsing de PNJs.json")?;
 
-    // Rechercher le marchand avec l'id correspondant
     let marchand = marchands
         .into_iter()
         .find(|m| m.id == quartier.merchant);
@@ -82,43 +80,34 @@ pub fn charger_marchand_quartier(quartier: &Quartier) -> Result<Option<Marchand>
     Ok(marchand)
 }
 
-/// Charge le héross
+/// Charge le héros
 fn charger_hero() -> Result<Hero> {
-    let file = File::open("assets/saves/player.json").unwrap();
+    let file = File::open("assets/saves/player.json")
+        .context("Erreur lors de l'ouverture du fichier player.json")?;
     let reader = BufReader::new(file);
-    let hero = serde_json::from_reader(reader)?;
+    let hero = serde_json::from_reader(reader)
+        .context("Erreur lors du parsing de player.json")?;
     Ok(hero)
+}
+
+/// Fonction pour charger les données du jeu
+fn charger_donnees() -> Jeu {
+    let quartiers = charger_quartiers().unwrap();
+    let hero = charger_hero().unwrap();
+    let quartier_actuel = hero.position.clone();
+
+    Jeu {
+        quartiers,
+        quartier_actuel,
+        hero
+    }
 }
 
 pub fn initialiser_jeu() -> Jeu {
     copier_dossier_data().expect("Erreur lors de la copie du dossier data");
-
-    let quartiers = charger_quartiers().unwrap();
-    let hero = charger_hero().unwrap();
-    let quartier_actuel = hero.position.clone();
-
-    let jeu = Jeu {
-        quartiers,
-        quartier_actuel,
-        hero
-
-    };
-
-    jeu
+    charger_donnees()
 }
 
 pub fn continue_jeu() -> Jeu {
-    let quartiers = charger_quartiers().unwrap();
-    let hero = charger_hero().unwrap();
-    let quartier_actuel = hero.position.clone();
-
-    let jeu = Jeu {
-        quartiers,
-        quartier_actuel,
-        hero
-
-    };
-
-    jeu
+    charger_donnees()
 }
-

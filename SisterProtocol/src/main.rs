@@ -12,7 +12,7 @@ pub struct EtatCombat;
 fn main() -> Result<()> {
     loop{
 
-        print!("Bienvenue dans SisterProtocol., Que voulez-vous faire ? ");
+        println!("Bienvenue dans SisterProtocol., Que voulez-vous faire ? ");
         print!("1. Nouvelle partie\n2. Charger une partie\n3. Quitter\n> ");
         io::stdout().flush().unwrap();
         let mut choix = String::new();
