@@ -54,8 +54,8 @@ pub fn enregistrer_marchand(marchand_id: u8, new_marchand: &Marchand) {
 
 pub fn enregistrer_quartiers(quartiers: &Vec<Quartier>) {
     // Ouvre ou crée le fichier Quartiers.json pour y écrire
-    let file = File::create("assets/saves/Distr.json")
-        .map_err(|e| format!("Erreur lors de la création du fichier Quartiers.json : {}", e)).unwrap();
+    let file = File::create("assets/saves/Districts.json")
+        .map_err(|e| format!("Erreur lors de la création du fichier Districts.json : {}", e)).unwrap();
     
     // Sérialiser l'objet quartiers en JSON et écrire dans le fichier
     serde_json::to_writer_pretty(file, quartiers)
