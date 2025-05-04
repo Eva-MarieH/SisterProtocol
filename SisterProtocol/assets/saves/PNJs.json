@@ -15,7 +15,7 @@
                 }
 
             ],
-            "dialogue": [
+            "dialogues": [
                 {
                     "context": "start",
                     "text": "T’as l’air fragile… mais t’inquiète, j’ai de quoi te rendre plus rapide, plus fort, moins… humain."
@@ -41,7 +41,7 @@
                     "quantity": 5
                 }
             ],
-            "dialogue": [
+            "dialogues": [
                 {
                     "context": "start",
                     "text": "Si tu veux pirater comme un pro, t’es au bon endroit. Je peux te donner les outils qu'il te faut."
@@ -67,7 +67,7 @@
                 }
 
             ],
-            "dialogue": [
+            "dialogues": [
                 {
                     "context": "start",
                     "text": "T’as besoin d’une armure ou d’une arme ? J’forge ce qui se fait de mieux dans ce coin de la ville."
@@ -92,7 +92,7 @@
                     "quantity": 12
                 }
             ],
-            "dialogue": [
+            "dialogues": [
                 {
                     "context": "start",
                     "text": "T’as l’air d’avoir besoin d’un upgrade… Les circuits que je propose changent tout."
@@ -117,7 +117,7 @@
                     "quantity": 6
                 }
             ],
-            "dialogue": [
+            "dialogues": [
                 {
                     "context": "start",
                     "text": "Envie de plus de chrome dans tes veines ? J’ai des implants qui feront de toi un vrai monstre."

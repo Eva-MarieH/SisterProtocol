@@ -1,5 +1,5 @@
 use crate::utils::affichage::Affichage;
-use crate::utils::{deplacement, marchandage, discussion, utilisation_objet, hacking};
+use crate::utils::{deplacement, discussion, hacking, marchandage, save, utilisation_objet};
 use crate::classes::jeu::Jeu;
 use crate::classes::action::Action;
 
@@ -14,6 +14,7 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
         io::stdout().flush().unwrap();
         let mut choix = String::new();
         io::stdin().read_line(&mut choix).unwrap();
+        println!("");
 
         let action = match choix.trim() {
             "1" => Action::Deplacement,
@@ -37,7 +38,11 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
             Action::Marchander => marchandage::marchandage(jeu),
             Action::Hacker => hacking::hacking(jeu),
            // Action::Combattre => combat::lancer_combat(),
-            Action::Quitter => break,
+            Action::Quitter => {
+                save::enregistrer_hero(&jeu.hero);
+                save::enregistrer_quartiers(&jeu.quartiers);
+                break
+            },
         }
     }
 }

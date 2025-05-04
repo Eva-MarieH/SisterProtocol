@@ -1,13 +1,11 @@
-use std::io::{self, Write};
-use anyhow::Context;
-
-use crate::classes::inventaire::{ TypeObjet, ObjetQuantifie};
-use crate::classes::personnage::{Hero, Marchand};
+use crate::classes::personnage::{Hero, Marchand}; 
+use crate::classes::inventaire::{Objet, ObjetQuantifie, TypeObjet};
 use crate::classes::jeu::Jeu;
 use crate::utils::affichage::Affichage;
-use crate::utils::ini;
+use crate::utils::{ini, save}; 
 
 
+use std::io::{self, Write};
 
 fn ajouter_a_inventaire(inventaire: &mut Vec<ObjetQuantifie>, id: u8, quantite: u32) {
     if let Some(obj) = inventaire.iter_mut().find(|o| o.id == id) {
@@ -30,22 +28,192 @@ fn retirer_du_inventaire(inventaire: &mut Vec<ObjetQuantifie>, id: u8, quantite:
         false
     }
 }
+fn vendre_objet(hero: &mut Hero, marchand: &mut Marchand) {
+    loop{
+         // Liste des objets que le héros peut vendre
+        let objets_disponibles = match ini::charger_objets() {
+            Ok(objets) => objets,
+            Err(_) => {
+                println!("❌ Impossible de charger les objets.");
+                return;
+            }
+        };
 
-pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
-    let objets = match ini::charger_objets() {
-        Ok(objs) => objs,
-        Err(e) => {
-            println!("Erreur lors du chargement des objets : {}", e);
+        let mut objets_vendables: Vec<(usize, &ObjetQuantifie, &Objet)> = vec![];
+
+        // Afficher les objets vendables (Nourriture et Amélioration)
+        println!("\n--- Tes objets à vendre ---");
+
+        // Ajouter les objets utilisables à la liste pour pouvoir les manipuler après
+        for (i, obj_quantifie) in hero.inventory.iter().enumerate() {
+            if let Some(objet_info) = objets_disponibles.iter().find(|o| o.id == obj_quantifie.id) {
+                match objet_info.type_objet {
+                    TypeObjet::Nourriture | TypeObjet::Amelioration => {
+                        objets_vendables.push((i, obj_quantifie, objet_info));
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        if objets_vendables.is_empty() {
+            println!("ℹ️ Aucun objet utilisable.");
             return;
         }
-    };
 
-    print!("Vous parlerz avec {}.\n", marchand.name);
+        // Afficher les objets avec des numéros
+        for (index, (_i, obj_quantifie, objet)) in objets_vendables.iter().enumerate() {
+            println!(
+                "{}: {} x{} [{}]",
+                index + 1,  // Ajoute un numéro à chaque objet
+                objet.nom,
+                obj_quantifie.quantity,
+                match objet.type_objet {
+                    TypeObjet::Nourriture => "Nourriture",
+                    TypeObjet::Amelioration => "Amélioration",
+                    _ => "",
+                }
+            );
+        }
 
+        println!("0: Retour");
+
+        println!("Argent du marchand : {} cr", marchand.money);
+        print!("> Choisis un objet à utiliser (numéro) : ");
+        io::stdout().flush().unwrap();
+        let mut choix = String::new();
+        io::stdin().read_line(&mut choix).unwrap();
+
+        // Vérifie si l'index du choix est valide
+        let index = match choix.trim().parse::<usize>() {
+            Ok(num) if num == 0 => {
+                return; // Quitte si l'utilisateur choisit 0
+            }
+            Ok(num) if num >= 1 && num <= objets_vendables.len() => num - 1,
+            _ => {
+                println!("⛔ Choix invalide.");
+                return;
+            }
+        };
+
+        // Récupère l'objet choisi
+        let (_, _, objet) = objets_vendables[index];
+
+        let prix = objet.prix.unwrap_or(0);
+        if retirer_du_inventaire(&mut hero.inventory, objet.id, 1) {
+            if marchand.money >= prix {
+                hero.argent += prix;
+                marchand.money -= prix;
+                ajouter_a_inventaire(&mut marchand.inventory, objet.id, 1);
+                println!("✅ Vendu pour {} crédits.", prix);
+            } else {
+                println!("❌ Le marchand n'a pas assez d'argent.");
+                ajouter_a_inventaire(&mut hero.inventory, objet.id, 1); // remboursement
+            }
+        }
+
+    }
+   
+}
+
+fn acheter_objet(hero: &mut Hero, marchand: &mut Marchand) {
+    loop {
+        // Liste des objets que le marchand peut vendre
+        let objets_disponibles = match ini::charger_objets() {
+            Ok(objets) => objets,
+            Err(_) => {
+                println!("❌ Impossible de charger les objets.");
+                return;
+            }
+        };
+
+        let mut objets_achetables: Vec<(usize, &ObjetQuantifie, &Objet)> = vec![];
+
+        // Afficher les objets vendables (Nourriture et Amélioration)
+        println!("\n--- Objets disponibles à l'achat ---");
+
+        // Ajouter les objets utilisables à la liste pour pouvoir les manipuler après
+        for (i, obj_quantifie) in marchand.inventory.iter().enumerate() {
+            if let Some(objet_info) = objets_disponibles.iter().find(|o| o.id == obj_quantifie.id) {
+                match objet_info.type_objet {
+                    TypeObjet::Nourriture | TypeObjet::Amelioration => {
+                        objets_achetables.push((i, obj_quantifie, objet_info));
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        if objets_achetables.is_empty() {
+            println!("ℹ️ Aucun objet à vendre.");
+            return;
+        }
+
+        // Afficher les objets avec des numéros
+        for (index, (_i, obj_quantifie, objet)) in objets_achetables.iter().enumerate() {
+            println!(
+                "{}: {} x{} [{}] -> {} crédits",
+                index + 1,  // Ajoute un numéro à chaque objet
+                objet.nom,
+                obj_quantifie.quantity,
+                match objet.type_objet {
+                    TypeObjet::Nourriture => "Nourriture",
+                    TypeObjet::Amelioration => "Amélioration",
+                    _ => "",
+                },
+                objet.prix.unwrap_or(0)
+            );
+        }
+
+        println!("0: Retour");
+
+        println!("\n--- Votre argent : {} ---", hero.argent);
+        print!("> Choisis un objet à acheter (numéro) : ");
+        io::stdout().flush().unwrap();
+        let mut choix = String::new();
+        io::stdin().read_line(&mut choix).unwrap();
+
+        // Vérifie si l'index du choix est valide
+        let index = match choix.trim().parse::<usize>() {
+            Ok(num) if num == 0 => {
+                return; // Quitte si l'utilisateur choisit 0
+            }
+            Ok(num) if num >= 1 && num <= objets_achetables.len() => num - 1,
+            _ => {
+                println!("⛔ Choix invalide.");
+                continue; // Repart à la boucle si le choix est invalide
+            }
+        };
+
+        // Récupère l'objet choisi
+        let (_, _, objet) = objets_achetables[index];
+    
+        let prix = objet.prix.unwrap_or(0);
+        if hero.argent < prix {
+            println!("❌ Tu n'as pas assez d'argent.");
+            continue; // Repart à la boucle si l'utilisateur n'a pas assez d'argent
+        }
+
+        // Effectuer l'achat si l'objet est disponible
+        if retirer_du_inventaire(&mut marchand.inventory, objet.id, 1) {
+            hero.argent -= prix;
+            marchand.money += prix;
+            ajouter_a_inventaire(&mut hero.inventory, objet.id, 1);
+            println!("✅ Achat réussi !");
+        } else {
+            println!("❌ Objet plus disponible.");
+            continue; // Repart à la boucle si l'objet n'est plus disponible
+        }
+    }
+}
+
+
+pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
+    println!("Vous parlez avec {}.\n", marchand.name);
     Affichage::afficher_dialogue_marchand(marchand, "start");
 
     loop {
-        println!("\nQue veux-tu faire ?");
+        println!("\nQue voulez-vous faire ?");
         println!("1. Vendre");
         println!("2. Acheter");
         println!("3. Partir");
@@ -57,79 +225,17 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
 
         match choix.trim() {
             "1" => {
-                println!("\n--- Tes objets à vendre ---");
-                Affichage::afficher_inventaire_filtre(&hero.inventory, &objets, true);
-                print!("ID de l’objet à vendre : ");
-                io::stdout().flush().unwrap();
-                let mut id_str = String::new();
-                io::stdin().read_line(&mut id_str).unwrap();
-                let id: u8 = match id_str.trim().parse() {
-                    Ok(val) => val,
-                    Err(_) => { println!("Entrée invalide."); continue; }
-                };
-
-                if let Some(obj) = Affichage::trouver_objet_par_id(id, &objets) {
-                    if !matches!(obj.type_objet, TypeObjet::Nourriture | TypeObjet::Amelioration) {
-                        println!("Tu ne peux pas vendre cet objet.");
-                        continue;
-                    }
-
-                    if retirer_du_inventaire(&mut hero.inventory, id, 1) {
-                        if marchand.money >= obj.prix {
-                            hero.argent += obj.prix;
-                            marchand.money -= obj.prix;
-                            ajouter_a_inventaire(&mut marchand.inventory, id, 1);
-                            println!("Vendu pour {} crédits.", obj.prix);
-                        } else {
-                            println!("Vendeur trop pauvre.");
-                            ajouter_a_inventaire(&mut hero.inventory, id, 1); // Rembourse
-                        }
-                    } else {
-                        println!("Tu ne possèdes pas cet objet.");
-                    }
-                } else {
-                    println!("Objet introuvable.");
-                }
+                vendre_objet(hero, marchand); // Appel de la fonction de vente
             }
 
             "2" => {
-                println!("\n--- Objets du marchand ---");
-                Affichage::afficher_inventaire(&marchand.inventory);
-                print!("ID de l’objet à acheter : ");
-                io::stdout().flush().unwrap();
-                let mut id_str = String::new();
-                io::stdin().read_line(&mut id_str).unwrap();
-                let id: u8 = match id_str.trim().parse() {
-                    Ok(val) => val,
-                    Err(_) => { println!("Entrée invalide."); continue; }
-                };
-
-                if let Some(obj) = Affichage::trouver_objet_par_id(id, &objets) {
-                    if !matches!(obj.type_objet, TypeObjet::Nourriture | TypeObjet::Amelioration) {
-                        println!("Tu ne peux pas acheter cet objet.");
-                        continue;
-                    }
-
-                    if hero.argent < obj.prix {
-                        println!("Vous êtes trop pauvre.");
-                        continue;
-                    }
-
-                    if retirer_du_inventaire(&mut marchand.inventory, id, 1) {
-                        hero.argent -= obj.prix;
-                        marchand.money += obj.prix;
-                        ajouter_a_inventaire(&mut hero.inventory, id, 1);
-                        println!("Achat réussi !");
-                    } else {
-                        println!("Objet non disponible chez le marchand.");
-                    }
-                } else {
-                    println!("Objet introuvable.");
-                }
+                acheter_objet(hero, marchand); // Appel de la fonction d'achat
             }
 
             "3" => {
                 Affichage::afficher_dialogue_marchand(marchand, "end");
+                save::enregistrer_hero(hero);
+                save::enregistrer_marchand(marchand.id, marchand);
                 break;
             }
 
@@ -138,19 +244,13 @@ pub fn discuter_avec_marchand(hero: &mut Hero, marchand: &mut Marchand) {
     }
 }
 
+pub fn marchandage(jeu: &mut Jeu) {
+    let quartier_actuel = jeu.quartiers
+        .iter_mut()
+        .find(|quartier| quartier.color == jeu.quartier_actuel)
+        .expect("Quartier actuel introuvable");
 
-pub fn marchandage(jeu:&mut Jeu) {
-    let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
-    .context("Quartier actuel introuvable").unwrap();
+    let mut marchand = ini::charger_marchand_quartier(&quartier_actuel);
 
-    match ini::charger_marchand_quartier(&quartier_actuel){
-        Ok(Some(mut marchand)) => {
-            discuter_avec_marchand(&mut jeu.hero, &mut marchand);
-        }
-        Ok(None) => println!("Il n'y a pas de marchand dans ce quartier."),
-        Err(e) => println!("Erreur lors du chargement du marchand : {}", e),
-    }
-    
+    discuter_avec_marchand(&mut jeu.hero, &mut marchand);
 }
-
-

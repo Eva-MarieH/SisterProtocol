@@ -85,7 +85,7 @@ pub fn discussion(jeu: &mut Jeu) {
     .context("Quartier actuel introuvable").unwrap();
 
     // Charger les résidents du quartier
-    let citoyens = ini::charger_residents_quartier(&quartier_actuel).unwrap();
+    let citoyens = ini::charger_residents_quartier(&quartier_actuel);
 
     // Afficher les citoyens (résidents)
     if citoyens.is_empty() {

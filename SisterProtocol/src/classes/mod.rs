@@ -4,5 +4,4 @@ pub mod action;
 pub mod combat;
 pub mod inventaire;
 pub mod entites;
-pub mod cachette;
 pub mod jeu;

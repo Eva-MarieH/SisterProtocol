@@ -4,7 +4,7 @@ use std::path::Path;
 use anyhow::{Context, Result};
 
 use crate::classes::quartier::Quartier;
-use crate::classes::personnage::{Hero, Resident, Marchand};
+use crate::classes::personnage::{Hero, Resident, Marchand,PNJs};
 use crate::classes::inventaire::Objet;
 use crate::classes::jeu::Jeu;
 
@@ -52,33 +52,36 @@ fn charger_quartiers() -> Result<Vec<Quartier>> {
 }
 
 // Charger les résidents du quartier
-pub fn charger_residents_quartier(quartier: &Quartier) -> Result<Vec<Resident>> {
-    let contenu_residents = fs::read_to_string("assets/PNJs.json")
-        .context("Erreur de lecture de PNJs.json")?;
-    let residents: Vec<Resident> = serde_json::from_str(&contenu_residents)
-        .context("Erreur de parsing de PNJs.json")?;
+pub fn charger_residents_quartier(quartier: &Quartier) -> Vec<Resident> {
+    let contenu_residents = fs::read_to_string("assets/saves/PNJs.json")
+        .context("Erreur de lecture de PNJs.json").unwrap();
 
-    let citoyens = residents.into_iter()
+    let pnj_data: PNJs = serde_json::from_str(&contenu_residents)
+        .context("Erreur de parsing de PNJs.json").unwrap();
+
+    let citoyens = pnj_data.residents.into_iter()
         .filter(|r| quartier.residents.contains(&(r.id as u8)))
         .collect();
 
-    Ok(citoyens)
+    citoyens
 }
+
 
 // Charger le marchand du quartier
-pub fn charger_marchand_quartier(quartier: &Quartier) -> Result<Option<Marchand>> {
-    let contenu = fs::read_to_string("assets/PNJs.json")
-        .context("Erreur de lecture de PNJs.json")?;
+pub fn charger_marchand_quartier(quartier: &Quartier) -> Marchand {
+    let contenu = fs::read_to_string("assets/saves/PNJs.json")
+        .context("Erreur de lecture de PNJs.json").unwrap();
 
-    let marchands: Vec<Marchand> = serde_json::from_str(&contenu)
-        .context("Erreur de parsing de PNJs.json")?;
+    let pnj_data: PNJs = serde_json::from_str(&contenu)
+        .context("Erreur de parsing de PNJs.json").unwrap();
 
-    let marchand = marchands
+    pnj_data
+        .merchants
         .into_iter()
-        .find(|m| m.id == quartier.merchant);
-
-    Ok(marchand)
+        .find(|m| m.id == quartier.merchant)
+        .expect("Aucun marchand correspondant trouvé pour ce quartier")
 }
+
 
 /// Charge le héros
 fn charger_hero() -> Result<Hero> {

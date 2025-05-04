@@ -1,8 +1,7 @@
 use crate::classes::jeu::Jeu;
 use crate::classes::quartier::Quartier;
 use crate::classes::personnage::{Resident, Marchand, Hero};
-use crate::classes::inventaire::{Objet, TypeObjet, ObjetQuantifie};
-use crate::utils::ini;
+/*use crate::utils::ini;*/
 
 pub struct Affichage;
 
@@ -24,7 +23,13 @@ impl Affichage {
         println!("\n=== Quartier: {} ===", quartier.color);
         println!("Gardes: {}", quartier.enemies.len());
         match &quartier.ordinateurs {
-            Some(ordinateurs) => println!("Ordinateurs: {}", ordinateurs.len()),
+            Some(ordinateurs) => {
+                if ordinateurs.is_empty() {
+                    println!("Ordinateurs: Aucun");
+                } else {
+                    println!("Ordinateurs: {}", ordinateurs.len());
+                }
+            }
             None => println!("Ordinateurs: 0"),
         }
         if quartier.server.is_some() {
@@ -76,7 +81,7 @@ impl Affichage {
 
 
 
-    // Fonction pour afficher les objets de l'inventaire
+    /*// Fonction pour afficher les objets de l'inventaire
     pub fn afficher_inventaire(inventaire: &Vec<ObjetQuantifie>) {
         let objets = match ini::charger_objets() {
             Ok(objs) => objs,
@@ -102,22 +107,8 @@ impl Affichage {
                 println!("Objet inconnu avec ID {} (quantité: {})", oq.id, oq.quantity);
             }
         }
-    }
-
-    pub fn trouver_objet_par_id(id: u8, objets: &[Objet]) -> Option<&Objet> {
-        objets.iter().find(|obj| obj.id == id)
-    }
+    }*/
     
-    pub fn afficher_inventaire_filtre(inventaire: &[ObjetQuantifie], objets: &[Objet], filtrer: bool) {
-        for obj_q in inventaire {
-            if let Some(obj) = Self::trouver_objet_par_id(obj_q.id, objets) {
-                if filtrer && !matches!(obj.type_objet, TypeObjet::Nourriture | TypeObjet::Amelioration) {
-                    continue;
-                }
-                println!("{}  x{} - {} crédits", obj.nom, obj_q.quantity, obj.prix);
-            }
-        }
-    }
 
     pub fn afficher_actions() {
         println!("\n🕹️  Actions possibles :");

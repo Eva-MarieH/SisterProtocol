@@ -7,3 +7,4 @@ pub mod ini;
 pub mod marchandage;
 pub mod utilisation_objet;
 pub mod action;
+pub mod save;

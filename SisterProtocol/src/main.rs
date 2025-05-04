@@ -28,7 +28,6 @@ fn main() -> Result<()> {
             "2" => {
                 let mut jeu = continue_jeu();
                 Affichage::afficher_message("Jeu chargé");
-                Affichage::afficher_jeu(&jeu);
                 Affichage::afficher_hero(&jeu.hero);
                 let quartier_actuel = jeu.quartiers.iter_mut().find(|quartier| quartier.color == jeu.quartier_actuel)
                  .context("Quartier actuel introuvable").unwrap();

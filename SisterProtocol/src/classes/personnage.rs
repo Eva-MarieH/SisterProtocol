@@ -20,6 +20,7 @@ impl Hero {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Garde {
     pub id: u8,
     pub nom: String,
@@ -28,23 +29,28 @@ pub struct Garde {
     pub loot: Vec<Objet>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
+pub struct PNJs {
+    pub merchants: Vec<Marchand>,
+    pub residents: Vec<Resident>,
+}
+
+#[derive(Clone,Debug, Deserialize, Serialize )]
 pub struct Marchand {
-    pub id: u8,
     pub name: String,
-    pub inventory: Vec<ObjetQuantifie>,
+    pub id: u8,
     pub money: i32,
+    pub inventory: Vec<ObjetQuantifie>,
     pub dialogues: Vec<Dialogue>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Resident {
     pub name: String,
     pub id: u8,
     pub dialogues: Vec<Dialogue>,
 }
-
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Dialogue {
     pub context: String,
     pub text: String,

@@ -3,7 +3,7 @@
     "vie": 100,
     "force": 10,
     "intelligence": 0,
-    "argent": 0,
+    "argent": 2,
     "position": "bleu",
     "inventory":[
         {
