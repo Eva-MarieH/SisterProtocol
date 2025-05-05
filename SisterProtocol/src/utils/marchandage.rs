@@ -34,7 +34,7 @@ fn vendre_objet(hero: &mut Hero, marchand: &mut Marchand) {
         let objets_disponibles = match ini::charger_objets() {
             Ok(objets) => objets,
             Err(_) => {
-                println!("❌ Impossible de charger les objets.");
+                println!("Impossible de charger les objets.");
                 return;
             }
         };
@@ -91,7 +91,7 @@ fn vendre_objet(hero: &mut Hero, marchand: &mut Marchand) {
             }
             Ok(num) if num >= 1 && num <= objets_vendables.len() => num - 1,
             _ => {
-                println!("⛔ Choix invalide.");
+                println!("Choix invalide.");
                 return;
             }
         };
@@ -105,9 +105,9 @@ fn vendre_objet(hero: &mut Hero, marchand: &mut Marchand) {
                 hero.argent += prix;
                 marchand.money -= prix;
                 ajouter_a_inventaire(&mut marchand.inventory, objet.id, 1);
-                println!("✅ Vendu pour {} crédits.", prix);
+                println!("Vendu pour {} crédits.", prix);
             } else {
-                println!("❌ Le marchand n'a pas assez d'argent.");
+                println!("Le marchand n'a pas assez d'argent.");
                 ajouter_a_inventaire(&mut hero.inventory, objet.id, 1); // remboursement
             }
         }
@@ -122,7 +122,7 @@ fn acheter_objet(hero: &mut Hero, marchand: &mut Marchand) {
         let objets_disponibles = match ini::charger_objets() {
             Ok(objets) => objets,
             Err(_) => {
-                println!("❌ Impossible de charger les objets.");
+                println!("Impossible de charger les objets.");
                 return;
             }
         };
@@ -145,7 +145,7 @@ fn acheter_objet(hero: &mut Hero, marchand: &mut Marchand) {
         }
 
         if objets_achetables.is_empty() {
-            println!("ℹ️ Aucun objet à vendre.");
+            println!("Aucun objet à vendre.");
             return;
         }
 
@@ -180,7 +180,7 @@ fn acheter_objet(hero: &mut Hero, marchand: &mut Marchand) {
             }
             Ok(num) if num >= 1 && num <= objets_achetables.len() => num - 1,
             _ => {
-                println!("⛔ Choix invalide.");
+                println!("Choix invalide.");
                 continue; // Repart à la boucle si le choix est invalide
             }
         };
@@ -190,7 +190,7 @@ fn acheter_objet(hero: &mut Hero, marchand: &mut Marchand) {
     
         let prix = objet.prix.unwrap_or(0);
         if hero.argent < prix {
-            println!("❌ Tu n'as pas assez d'argent.");
+            println!("Tu n'as pas assez d'argent.");
             continue; // Repart à la boucle si l'utilisateur n'a pas assez d'argent
         }
 
@@ -199,9 +199,9 @@ fn acheter_objet(hero: &mut Hero, marchand: &mut Marchand) {
             hero.argent -= prix;
             marchand.money += prix;
             ajouter_a_inventaire(&mut hero.inventory, objet.id, 1);
-            println!("✅ Achat réussi !");
+            println!("Achat réussi !");
         } else {
-            println!("❌ Objet plus disponible.");
+            println!("Objet plus disponible.");
             continue; // Repart à la boucle si l'objet n'est plus disponible
         }
     }

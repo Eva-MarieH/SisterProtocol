@@ -1,0 +1,13 @@
+{
+    "debut": "Tu viens de te réveiller après une explosion. Le quartier est en ruine et ta soeur.... introuvable.",
+    "bleu": "Ancien quartier ouvrier, ravagé par l’explosion. Les ruelles sont noires de suie, les néons grésillent entre les poutrelles effondrées. Des drones brûlés jonchent le sol, et seuls les plus désespérés y survivent. Ici, la technologie est brisée… et les espoirs aussi.",
+    "vert": "Un enchevêtrement de serres, de câbles et de bidonvilles construits sur les anciennes zones agricoles automatisées. Le vert n’est plus celui de la nature, mais celui des fuites d'acide des laboratoires abandonnés. Ceux qui y vivent trafiquent pièces et données pour survivre.",
+    "jaune": "Centre névralgique du troc et du marché noir. Les hologrammes publicitaires masquent à peine les regards méfiants et les deals silencieux. Tu sens que l'information ici vaut bien plus que la monnaie. Et chacun cache un secret.",
+    "violet": "n quartier froid et ordonné, siège des intelligences artificielles citoyennes et des entreprises semi-légales. Tout y est trop propre, trop calme. Les caméras t'observent en silence. Tu n’as pas ta place ici, et tu le ressens à chaque pas.",
+    "rouge": "Sommet de la hiérarchie urbaine. Tours de verre, véhicules autonomes luxueux, implants dernier cri. Mais derrière les murs de chrome, un silence clinique. Ici, l'humanité a été laissée derrière depuis longtemps. Et ta sœur pourrait bien s’y cacher.",
+    "fin":"Son masque métalique tombe au sol et c'est là que tu la reconnaiss. Elle était l'ennemi alors que tu la pensais captive.",
+    "fin_good": "L'IA de ses implants avait pris le controle mais grace à toi la voilà libre.",
+    "fin_bad": "Elle te regarde, les yeux inexpressifs, la machine aux commandes. Et tu n'y peux rien.",
+    "end": "FIN. Merci d'avoir joué à SisterProtcol. A bientot."
+
+}

@@ -1,10 +1,12 @@
 use crate::classes::quartier::Quartier;
 use crate::classes::personnage::Hero;
+use crate::classes::lore::Lore;
 
 pub struct Jeu {
     pub quartiers: Vec<Quartier>,
     pub quartier_actuel: String,
     pub hero : Hero,
+    pub lore : Lore
 }
 
 impl Jeu {

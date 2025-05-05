@@ -26,7 +26,7 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
             "6" => Action::Combattre,
             "7" => Action::Quitter,
             _ => {
-                println!("⛔ Action inconnue.");
+                println!("Action inconnue.");
                 continue;
             }
         };
@@ -47,7 +47,7 @@ pub fn boucle_jeu(jeu: &mut Jeu) {
             },
             Action::Combattre => {
                 if jeu.peut_combattre() {
-                    Combat::lancer_combat(jeu);
+                    Combat::combat(jeu);
                 }
                 else {
                     println!("🚫 Impossible de combattre : vous n'avez plus de vie !");

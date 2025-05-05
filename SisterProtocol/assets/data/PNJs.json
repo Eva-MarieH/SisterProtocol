@@ -604,67 +604,67 @@
         {
             "name": "Iron Jaw",
             "id": 0,
-            "force": 12
+            "force": 8
         },
         {
             "name": "Steel Fist",
             "id": 1,
-            "force": 18
+            "force": 9
         },
         {
             "name": "Titan-42",
             "id": 2,
-            "force": 25
+            "force": 10
         },
         {
             "name": "Ghost Sentinel",
             "id": 3,
-            "force": 30
+            "force": 11
         },
         {
             "name": "Hexblade",
             "id": 4,
-            "force": 22
+            "force": 12
         },
         {
             "name": "Cyber Warden",
             "id": 5,
-            "force": 28
+            "force": 13
         },
         {
             "name": "Red Fang",
             "id": 6,
-            "force": 35
+            "force": 14
         },
         {
             "name": "ECHO-5",
             "id": 7,
-            "force": 40
+            "force": 15
         },
         {
             "name": "Neon Striker",
             "id": 8,
-            "force": 26
+            "force": 16
         },
         {
             "name": "Black ICE",
             "id": 9,
-            "force": 38
+            "force": 17
         },
         {
             "name": "Shadow Enforcer",
             "id": 10,
-            "force": 32
+            "force": 18
         },
         {
             "name": "GigaTank",
             "id": 11,
-            "force": 50
+            "force": 18
         }
     ],
     "boss":{
         "name":"Elize",
-        "alias": "Le robot",
+        "alias": "Robot",
         "force" : 20
     }
 }

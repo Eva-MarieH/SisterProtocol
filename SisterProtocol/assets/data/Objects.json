@@ -43,7 +43,7 @@
     {
         "id": 6,
         "nom": "canette de soda",
-        "effet": 10,
+        "effet": 50,
         "type_objet": "Nourriture",
         "prix": 5
         
@@ -51,7 +51,7 @@
     {
         "id": 7,
         "nom": "sandwich au poulet",
-        "effet": 25,
+        "effet": 75,
         "type_objet": "Nourriture",
         "prix": 10
 
@@ -59,7 +59,7 @@
     {
         "id": 8,
         "nom": "morphine",
-        "effet": 50,
+        "effet": 100,
         "type_objet": "Nourriture",
         "prix": 50
     }

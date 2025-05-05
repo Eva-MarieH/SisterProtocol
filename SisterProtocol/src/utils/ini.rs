@@ -5,8 +5,9 @@ use anyhow::{Context, Result};
 
 use crate::classes::entites::{Machines, Ordinateur, Serveur};
 use crate::classes::quartier::Quartier;
-use crate::classes::personnage::{Garde, Hero, Marchand, PNJs, Resident};
+use crate::classes::personnage::{Garde, Hero, Marchand, PNJs, Resident, Boss};
 use crate::classes::inventaire::Objet;
+use crate::classes::lore::Lore;
 use crate::classes::jeu::Jeu;
 
 fn copier_dossier_data() -> std::io::Result<()> {
@@ -107,6 +108,18 @@ pub fn charger_premier_garde_quartier(quartier: &Quartier) -> Option<Garde> {
     guards.first().cloned()
 }
 
+// Charger le boss du quartier
+pub fn charger_boss_quartier() -> Boss{
+    let contenu = fs::read_to_string("assets/saves/PNJs.json")
+        .context("Erreur de lecture de PNJs.json").unwrap();
+
+    let pnj_data: PNJs = serde_json::from_str(&contenu)
+        .context("Erreur de parsing de PNJs.json").unwrap();
+
+    pnj_data.boss
+}
+
+
 // Charger le serveur du quartier
 pub fn charger_serveur_quartier(quartier: &Quartier) -> Option<Serveur> {
     let contenu = fs::read_to_string("assets/saves/Ennemies.json")
@@ -163,12 +176,22 @@ fn charger_donnees() -> Jeu {
     let quartiers = charger_quartiers().unwrap();
     let hero = charger_hero().unwrap();
     let quartier_actuel = hero.position.clone();
+    let lore = charger_lore();
 
     Jeu {
         quartiers,
         quartier_actuel,
-        hero
+        hero,
+        lore
     }
+    
+    
+}
+pub fn charger_lore() -> Lore {
+    let contenu = fs::read_to_string("assets/saves/Lore.json")
+        .expect("Impossible de lire le fichier de Lore.json.");
+    serde_json::from_str(&contenu)
+        .expect("Erreur lors du parsing du fichier de Lore.json.")
 }
 
 pub fn initialiser_jeu() -> Jeu {

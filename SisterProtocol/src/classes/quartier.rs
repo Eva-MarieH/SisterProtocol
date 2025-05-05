@@ -8,6 +8,6 @@ pub struct Quartier{
     pub residents: Vec<u8>,
     pub ordinateurs: Option<Vec<u8>>,
     pub server: Option<u8>,
-    pub boss: Option<u8>,
+    pub boss: bool,
 }
 

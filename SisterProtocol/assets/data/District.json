@@ -5,7 +5,8 @@
         "merchant": 0,
         "residents": [0,1,2,3],
         "ordinateurs": [0,1,2,3],
-        "server": 0
+        "server": 0,
+        "boss": false
     },
     {
         "color": "vert",
@@ -13,7 +14,8 @@
         "merchant": 1,
         "residents": [4,5,6,7],
         "ordinateurs": [4,5,6,7],
-        "server": 1
+        "server": 1,
+        "boss": false
     },
     {
         "color": "jaune",
@@ -21,7 +23,8 @@
         "merchant": 2,
         "residents": [8,9,10,11],
         "ordinateurs": [8,9,10,11],
-        "server": 2
+        "server": 2,
+        "boss": false
     },
     {
         "color": "violet",
@@ -29,12 +32,14 @@
         "merchant": 3,
         "residents": [12,13,14,15],
         "ordinateurs": [12,13,14],
-        "server": 3
+        "server": 3,
+        "boss": false
     },
     {
         "color": "rouge",
         "guards": [12,13,14],
         "merchant": 4,
-        "residents": [15,16,17]
+        "residents": [15,16,17],
+        "boss": true
     }
 ]

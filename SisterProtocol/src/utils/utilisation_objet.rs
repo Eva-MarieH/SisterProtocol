@@ -10,12 +10,12 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
     let objets_disponibles = match charger_objets() {
         Ok(objets) => objets,
         Err(_) => {
-            println!("❌ Impossible de charger les objets.");
+            println!("Impossible de charger les objets.");
             return;
         }
     };
 
-    println!("📦 Objets utilisables dans l'inventaire :");
+    println!("Objets utilisables dans l'inventaire :");
 
     loop {
         // Filtre les objets utilisables (en s'assurant qu'il y a des objets avec une quantité > 0)
@@ -36,21 +36,9 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
 
         // Si l'inventaire est vide
         if objets_utilisables.is_empty() {
-            println!("ℹ️ Inventaire vide.");
-            println!("0: Quitter");
-            print!("> Choisissez une option : ");
-            io::stdout().flush().unwrap();
-            let mut choix = String::new();
-            io::stdin().read_line(&mut choix).unwrap();
-
-            // Quitter si l'utilisateur choisit 0
-            if choix.trim() == "0" {
-                save::enregistrer_hero(&jeu.hero);
-                return;
-            } else {
-                println!("⛔ Choix invalide.");
-                continue; // Redemander si le choix est invalide
-            }
+            println!("\nInventaire vide.");
+            save::enregistrer_hero(&jeu.hero);
+            return;
         }
 
         // Si des objets sont disponibles
@@ -85,7 +73,7 @@ pub fn utilisation_objet(jeu: &mut Jeu) {
             }
             Ok(num) if num >= 1 && num <= objets_utilisables.len() => num - 1,
             _ => {
-                println!("⛔ Choix invalide.");
+                println!("Choix invalide.");
                 continue;
             }
         };
@@ -105,7 +93,7 @@ fn utiliser_objet(hero: &mut Hero, objet: &Objet) {
                 hero.vie = 100;
             }
             println!(
-                "🍽️ {} utilisé. Vie : {} → {}",
+                "{} utilisé. Vie : {} → {}",
                 objet.nom, vie_avant, hero.vie
             );
             retirer_objet(&mut hero.inventory, objet.id);
@@ -113,11 +101,11 @@ fn utiliser_objet(hero: &mut Hero, objet: &Objet) {
         TypeObjet::Amelioration => {
             if let Some(am) = &hero.amelioration {
                 hero.force -= am.effet;
-                println!("♻️ Remplacement de {} (effet -{})", am.nom, am.effet);
+                println!("Remplacement de {} (effet -{})", am.nom, am.effet);
                 ajouter_objet(&mut hero.inventory, am.id);
             }
             println!(
-                "🛠️ {} équipé. Force : {} → {}",
+                "{} équipé. Force : {} → {}",
                 objet.nom,
                 hero.force,
                 hero.force + objet.effet

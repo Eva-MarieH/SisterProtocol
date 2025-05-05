@@ -78,7 +78,7 @@ fn mastermind_binaire(solution: &str) {
 
         let guess = tentative.trim();
         if guess.len() != len || !guess.chars().all(|c| c == '0' || c == '1') {
-            println!("⛔ Entrée invalide. Entrez une séquence binaire de {} bits.", len);
+            println!("Entrée invalide. Entrez une séquence binaire de {} bits.", len);
             continue;
         }
 
@@ -89,7 +89,7 @@ fn mastermind_binaire(solution: &str) {
             .count();
 
         if exact == len {
-            println!("\x1b[32m✅ Gagné ! La solution était bien {}\x1b[0m", solution);
+            println!("\x1b[32m Gagné ! La solution était bien {}\x1b[0m", solution);
             return;
         } else {
             // Coloration du retour
@@ -101,13 +101,13 @@ fn mastermind_binaire(solution: &str) {
                     colored_guess.push_str(&format!("\x1b[31m{}\x1b[0m", g)); // Rouge
                 }
             }
-            println!("🔢 {} bien placé(s) → {}", exact, colored_guess);
+            println!("{} bien placé(s) → {}", exact, colored_guess);
         }
 
         essais -= 1;
     }
 
-    println!("💀 Perdu ! La solution était : {}", solution);
+    println!("Perdu ! La solution était : {}", solution);
 }
 
 fn mastermind_couleur(solution: &Vec<String>) {
@@ -127,7 +127,7 @@ fn mastermind_couleur(solution: &Vec<String>) {
 
         // Vérification que l'utilisateur a entré le bon nombre de couleurs
         if guess.len() != len {
-            println!("⛔ Entrée invalide. Il faut entrer exactement {} couleur(s).", len);
+            println!("Entrée invalide. Il faut entrer exactement {} couleur(s).", len);
             continue;
         }
 
@@ -147,7 +147,7 @@ fn mastermind_couleur(solution: &Vec<String>) {
 
         // Si la tentative est correcte
         if exact == len {
-            println!("🎉 Bravo ! La combinaison était : {:?}", solution);
+            println!("Bravo ! La combinaison était : {:?}", solution);
             return;
         } else {
             // Affichage des couleurs avec formatage : rouge pour incorrect, vert pour correct
@@ -167,7 +167,7 @@ fn mastermind_couleur(solution: &Vec<String>) {
         essais -= 1;
     }
 
-    println!("💀 Perdu. La solution était : {:?}", solution);
+    println!("Perdu. La solution était : {:?}", solution);
 }
 
 fn pendu(mot: &str) {
@@ -190,13 +190,13 @@ fn pendu(mot: &str) {
         let lettre = input.trim().chars().next();
 
         if lettre.is_none() || !lettre.unwrap().is_alphabetic() {
-            println!("⛔ Entrée invalide.");
+            println!("Entrée invalide.");
             continue;
         }
 
         let lettre = lettre.unwrap().to_ascii_lowercase();
         if lettres_proposees.contains(&lettre) {
-            println!("⚠️ Tu as déjà proposé '{}'.", lettre);
+            println!("Tu as déjà proposé '{}'.", lettre);
             continue;
         }
 
@@ -209,14 +209,14 @@ fn pendu(mot: &str) {
                 }
             }
             if !trouve.contains(&'_') {
-                println!("\n🎉 Gagné ! Le mot était : {}", mot);
+                println!("\nGagné ! Le mot était : {}", mot);
                 return;
             }
         } else {
             essais -= 1;
-            println!("❌ Raté.");
+            println!("Raté.");
         }
     }
 
-    println!("\n💀 Perdu. Le mot était : {}", mot);
+    println!("\nPerdu. Le mot était : {}", mot);
 }

@@ -106,15 +106,23 @@ impl Combat {
                     jeu.hero.vie = vie_hero;
     
                     if vie_ennemi <= 0 {
-                        println!("🎉 Tu as vaincu {}!", garde_nom);
+                        println!("Tu as vaincu {}!", garde_nom);
+
+                        // Gagner de l'argent
+                        let mut rng_argent = rng();
+                        let argent_gagne = rng_argent.random_range(10.. 50);
+                        println!("Tu as gagné {} crédits !", argent_gagne);
+                        jeu.hero.argent += argent_gagne;
+
                         // Re-emprunter maintenant que l'ancien est libéré
                         let quartier = jeu.quartiers.iter_mut()
                             .find(|q| q.color == quartier_couleur)
                             .expect("Quartier introuvable");
                         Combat::supprimer_garde(quartier);
+
                         break;
                     } else if vie_hero <= 0 {
-                        println!("💀 Tu as perdu...");
+                        println!("Tu as perdu...");
                         println!("Vous vous évanouissez.");
                         jeu.hero.vie = 10;
                         break;
@@ -128,12 +136,100 @@ impl Combat {
                     jeu.hero.vie = combat.vie_hero;
                     break;
                 },
-                _ => println!("⛔ Choix invalide."),
+                _ => println!("Choix invalide."),
             }
         }
     
         // Sauvegarde finale
         save::enregistrer_hero(&jeu.hero);
     }
+
+
+    pub fn lancer_combat_boss(jeu: &mut Jeu) {
+        // Récupération des infos nécessaires (copiées ou clonées) avant la boucle
+        let mut combat: Combat;
+
+        let boss = ini::charger_boss_quartier();
+
+        let mut boss_nom = boss.alias.clone();
+
+        combat = Combat {
+            force_hero: jeu.hero.force,
+            force_ennemi: boss.force,
+            vie_hero: jeu.hero.vie,
+            vie_ennemi: 100,
+        };
     
+            println!("\nTu te retrouves face au {} !", boss_nom);
+    
+        loop {
+            println!("\nQue veux-tu faire ?");
+            println!("1. Attaquer");
+            println!("2. Utiliser un objet");
+    
+            print!("> ");
+            io::stdout().flush().unwrap();
+            let mut choix = String::new();
+            io::stdin().read_line(&mut choix).unwrap();
+    
+            match choix.trim() {
+                "1" => {
+                    let (vie_hero, vie_ennemi) = combat.lancer();
+                    combat.vie_hero = vie_hero;
+                    combat.vie_ennemi = vie_ennemi;
+                    jeu.hero.vie = vie_hero;
+    
+                    if vie_ennemi <= 0 {
+                        println!("Tu as vaincu {}!", boss_nom);
+
+                        boss_nom = boss.name.clone();
+                        println!("Ou devrait-on dire {}.", boss_nom);
+
+                        println!("{}",jeu.lore.fin);
+                        println!("{}",jeu.lore.fin_good);
+                        break;
+                    } else if vie_hero <= 0 {
+                        println!("Tu as perdu...");
+                        println!("{}",jeu.lore.fin);
+                        println!("{}",jeu.lore.fin_bad);
+                        break;
+                    }
+                },
+                "2" => {
+                    utilisation_objet::utilisation_objet(jeu);
+                },
+                _ => println!("Choix invalide."),
+            }
+        }
+    
+        println!("{}",jeu.lore.end);
+        // Sauvegarde finale
+        save::enregistrer_hero(&jeu.hero);
+        std::process::exit(0);
+    }
+
+    pub fn combat(jeu: &mut Jeu) {
+        let quartier = jeu.quartiers.iter_mut()
+            .find(|q| q.color == jeu.quartier_actuel)
+            .expect("Quartier introuvable");
+
+        let has_gardes = quartier.guards.as_ref().map_or(false, |g| !g.is_empty());
+        let has_boss = quartier.boss;
+
+        match (has_gardes, has_boss) {
+            (true, _) => {
+                // Garde encore présent
+                Combat::lancer_combat(jeu);
+            }
+            (false, true) => {
+                // Plus de gardes, mais boss encore en vie
+                println!("\nTu arrives devant le boss de ce quartier...");
+                Combat::lancer_combat_boss(jeu);
+            }
+            (false, false) => {
+                //Rien à combattre
+                println!("Il n'y a plus d'ennemis à combattre ici.");
+            }
+        }
+    }
 }

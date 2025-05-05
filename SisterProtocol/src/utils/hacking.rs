@@ -29,7 +29,7 @@ pub fn hacking(jeu: &mut Jeu) {
         }
 
         Some(EnnemiHackable::Serveur(serv)) => {
-            println!("🧠 Serveur Central #{} : \"{}\"", serv.id, serv.name);
+            println!("Serveur Central #{} : \"{}\"", serv.id, serv.name);
             let jeu_random = rng().random_range(0..=1);
             let result1 = if jeu_random == 0 {
                 mastermind_binaire_random()
@@ -39,18 +39,18 @@ pub fn hacking(jeu: &mut Jeu) {
             Affichage::afficher_resultat_hacking(&result1, &serv.name);
 
             if result1.is_ok() {
-                println!("🔐 Authentification partielle réussie... lancement du système de sécurité !");
+                println!("Authentification partielle réussie... lancement du système de sécurité !");
                 let result2 = pendu_random();
                 Affichage::afficher_resultat_hacking(&result2, &serv.name);
                 if result2.is_ok() {
-                    println!("🎉 TU AS VAINCU LE SERVEUR!");
-                    println!("🚪 Prochain quartier dévérouillé...");
+                    println!("TU AS VAINCU LE SERVEUR!");
+                    println!("Prochain quartier dévérouillé...");
                     supprimer_ennemi_hackable(quartier_actuel, &EnnemiHackable::Serveur(serv));
                 }
             }
         }
 
-        None => println!("✅ SYSTEME DE SECURITE HS"),
+        None => println!("SYSTEME DE SECURITE HS"),
     }
 }
 

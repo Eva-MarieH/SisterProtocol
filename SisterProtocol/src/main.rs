@@ -3,9 +3,10 @@ mod utils;
 
 use crate::utils::ini::{initialiser_jeu, continue_jeu};
 use crate::utils::action;
+use crate::utils::save;
+use crate::utils::affichage::Affichage;
 
 use anyhow::{Result,Context};
-use utils::affichage::Affichage;
 use std::io::{self, Write};
 use std::path::Path;
 pub struct EtatCombat;
@@ -28,7 +29,21 @@ fn main() -> Result<()> {
         match choix.trim() {
             "1" => {
                 let mut jeu = initialiser_jeu();
-                Affichage::afficher_message("Jeu initialisé");
+                Affichage::afficher_message("\n Jeu initialisé");
+
+                println!("\n{}", jeu.lore.debut);
+
+                print!("\nVotre nom est flou dans votre mémoire mais vous vous concentez : ");
+                io::stdout().flush().unwrap();
+
+                let mut nom_hero = String::new();
+                io::stdin().read_line(&mut nom_hero).unwrap();
+                jeu.hero.name = nom_hero.trim().to_string();
+                save::enregistrer_hero(&jeu.hero);
+
+                println!("\nVous voilà au quartier {}.", jeu.quartier_actuel);
+                print!("{}\n", jeu.lore.bleu);
+
                 action::boucle_jeu(&mut jeu);
             }
             "2" if save_existe => {
@@ -42,14 +57,14 @@ fn main() -> Result<()> {
                 action::boucle_jeu(&mut jeu);
             }
             "2" => {
-                println!("\n⛔ Aucun fichier de sauvegarde trouvé.");
+                println!("\nAucun fichier de sauvegarde trouvé.");
             }
             "3" => {
-                println!("\n👋 Merci d'avoir joué à SisterProtocol !");
+                println!("\nMerci d'avoir joué à SisterProtocol !");
                 break;
             }
             _ => {
-                println!("\n⛔ Action inconnue.");
+                println!("\nAction inconnue.");
             }
         }
     }

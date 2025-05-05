@@ -44,7 +44,7 @@ impl Affichage {
         if quartier.server.is_some() {
             println!("Serveur: Présent");
         }
-        if quartier.boss.is_some() {
+        if quartier.boss {
             println!("Boss: Présent");
         }
         println!("Marchands: Présent");
@@ -72,8 +72,8 @@ impl Affichage {
 
     pub fn afficher_resultat_hacking(result: &Result<(), anyhow::Error>, cible: &str) {
         match result {
-            Ok(_) => println!("✅ Tu as neutralisé {}", cible),
-            Err(e) => println!("💀 Échec contre {} : {}", cible, e),
+            Ok(_) => println!("Tu as neutralisé {}", cible),
+            Err(e) => println!("Échec contre {} : {}", cible, e),
         }
     }
     
@@ -119,7 +119,7 @@ impl Affichage {
     
 
     pub fn afficher_actions() {
-        println!("\n🕹️  Actions possibles :");
+        println!("\nActions possibles :");
         println!("1. Se déplacer vers un autre quartier");
         println!("2. Utiliser un objet de l'inventaire");
         println!("3. Parler à un citoyen");

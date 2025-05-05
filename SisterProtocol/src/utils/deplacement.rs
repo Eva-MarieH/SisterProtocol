@@ -2,8 +2,7 @@ use crate::classes::jeu::Jeu;
 use std::io::{self, Write};
 
 pub fn deplacement(jeu: &mut Jeu) {
-
-    println!("🏠 Quel quartier veux-tu aller ?");
+    println!("Quel quartier veux-tu aller ?( bleu <-> vert <-> jaune <-> violet <-> rouge)");
     println!("1. Quartier bleu");
     println!("2. Quartier vert");
     println!("3. Quartier jaune");
@@ -23,7 +22,7 @@ pub fn deplacement(jeu: &mut Jeu) {
         "4" => "violet",
         "5" => "rouge",
         _ => {
-            println!("⛔ Quartier inconnu.");
+            println!("Quartier inconnu.");
             return;
         }
     };
@@ -35,7 +34,17 @@ pub fn deplacement(jeu: &mut Jeu) {
     jeu.hero.position = destination.to_string();
     jeu.quartier_actuel = destination.to_string();
     println!("🚶 Tu marches vers le quartier {}...", destination);
+
+    match destination {
+        "bleu" => println!("{}", jeu.lore.bleu),
+        "vert" => println!("{}", jeu.lore.vert),
+        "jaune" => println!("{}", jeu.lore.jaune),
+        "violet" => println!("{}", jeu.lore.violet),
+        "rouge" => println!("{}", jeu.lore.rouge),
+        _ => {}
+    }
 }
+
 
 fn peut_se_deplacer(jeu: &Jeu, destination: &str) -> bool {
     let ordre_quartiers = vec!["bleu", "vert", "jaune", "violet", "rouge"];
@@ -54,14 +63,14 @@ fn peut_se_deplacer(jeu: &Jeu, destination: &str) -> bool {
             if let Some(q) = quartier_actuel {
                 if q.server.is_some() {
                     println!(
-                        "⛔ Le serveur de '{}' bloque l'accès à '{}'.",
+                        "Le serveur de '{}' bloque l'accès à '{}'.",
                         q.color, destination
                     );
                     return false;
                 }
                 true
             } else {
-                println!("⚠️ Erreur : quartier actuel introuvable.");
+                println!("Erreur : quartier actuel introuvable.");
                 false
             }
         }
@@ -69,12 +78,12 @@ fn peut_se_deplacer(jeu: &Jeu, destination: &str) -> bool {
             true
         }
         (Some(i_actuel), Some(i_dest)) if i_dest == i_actuel => {
-            println!("ℹ️ Tu es déjà dans le quartier '{}'.", destination);
+            println!("Tu es déjà dans le quartier '{}'.", destination);
             false
         }
         _ => {
             println!(
-                "⛔ Tu ne peux pas aller à '{}' depuis '{}'. Suis l'ordre : bleu <-> vert <-> jaune <-> violet <-> rouge.",
+                "Tu ne peux pas aller à '{}' depuis '{}'. Suis l'ordre : bleu <-> vert <-> jaune <-> violet <-> rouge.",
                 destination, jeu.quartier_actuel
             );
             false
