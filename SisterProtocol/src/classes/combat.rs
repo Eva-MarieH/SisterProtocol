@@ -205,7 +205,25 @@ impl Combat {
         println!("{}",jeu.lore.end);
         // Sauvegarde finale
         save::enregistrer_hero(&jeu.hero);
-        std::process::exit(0);
+        
+        println!("\nSouhaites-tu quitter le jeu ? (o/n)");
+        print!("> ");
+        io::stdout().flush().unwrap();
+
+        let mut choix = String::new();
+        io::stdin().read_line(&mut choix).unwrap();
+        let choix = choix.trim().to_lowercase();
+
+        match choix.as_str() {
+            "o" | "oui" => {
+                println!("Merci d'avoir joué à SisterProtocol !");
+                std::process::exit(0);
+            }
+            "n" | "non" => {
+                return;
+            }
+            _ => println!("Réponse invalide. Tape 'o' ou 'n'."),
+        }
     }
 
     pub fn combat(jeu: &mut Jeu) {

@@ -5,5 +5,6 @@ pub enum Action {
     Marchander,
     Hacker,
     Combattre,
+    Quartier,
     Quitter,
 }

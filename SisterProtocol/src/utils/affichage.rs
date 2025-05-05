@@ -126,7 +126,8 @@ impl Affichage {
         println!("4. Marchander");
         println!("5. Hacker");
         println!("6. Combattre");
-        println!("7. Quitter le jeu");
+        println!("7. Afficher l'état du quartier");
+        println!("8. Quitter le jeu");
     }
     
     
