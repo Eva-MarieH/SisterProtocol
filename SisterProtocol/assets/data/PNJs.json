@@ -619,48 +619,64 @@
         {
             "name": "Ghost Sentinel",
             "id": 3,
-            "force": 11
+            "force": 9
         },
         {
             "name": "Hexblade",
             "id": 4,
-            "force": 12
+            "force": 8
         },
         {
             "name": "Cyber Warden",
             "id": 5,
-            "force": 13
+            "force": 10
         },
         {
             "name": "Red Fang",
             "id": 6,
-            "force": 14
+            "force": 9
         },
         {
             "name": "ECHO-5",
             "id": 7,
-            "force": 15
+            "force": 10
         },
         {
             "name": "Neon Striker",
             "id": 8,
-            "force": 16
+            "force": 11
         },
         {
             "name": "Black ICE",
             "id": 9,
-            "force": 17
+            "force": 12
         },
         {
             "name": "Shadow Enforcer",
             "id": 10,
-            "force": 18
+            "force": 13
         },
         {
             "name": "GigaTank",
             "id": 11,
+            "force": 14
+        },
+        {
+            "name": "Sentinelle Strix",
+            "id": 12,
+            "force": 16
+        },
+        {
+            "name": "Iris d’Acier",
+            "id": 13,
+            "force": 17
+        },
+        {
+            "name": "Proxy-9",
+            "id": 14,
             "force": 18
         }
+
     ],
     "boss":{
         "name":"Elize",

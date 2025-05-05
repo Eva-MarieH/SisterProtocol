@@ -34,21 +34,23 @@ impl Affichage {
         match &quartier.ordinateurs {
             Some(ordinateurs) => {
                 if ordinateurs.is_empty() {
-                    println!("Ordinateurs: Aucun");
+                    println!("Ordinateurs: 0");
                 } else {
                     println!("Ordinateurs: {}", ordinateurs.len());
                 }
             }
-            None => println!("Ordinateurs: 0"),
+            None => {println!("Ordinateurs: 0");
+        },
         }
         if quartier.server.is_some() {
             println!("Serveur: Présent");
         }
+        else{
+            println!("Serveur: 0");
+        }
         if quartier.boss {
             println!("Boss: Présent");
         }
-        println!("Marchands: Présent");
-        println!("PNJs: {}", quartier.residents.len());
     }
 
     // Afficher les dialogues d'un résident en fonction du contexte

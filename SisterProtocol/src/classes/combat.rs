@@ -72,8 +72,14 @@ impl Combat {
                 .find(|q| q.color == quartier_couleur)
                 .expect("Quartier actuel introuvable");
     
-            let garde = ini::charger_premier_garde_quartier(quartier_actuel)
-                .expect("Aucun garde trouvé");
+            let garde = ini::charger_premier_garde_quartier(quartier_actuel);
+    
+            if garde.is_none() {
+                println!("Il n'y a plus de gardes à combattre ici.");
+                return;
+            }
+    
+            let garde = garde.unwrap();
     
             garde_nom = garde.name.clone();
     
