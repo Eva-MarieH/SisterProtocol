@@ -1,0 +1,66 @@
+[
+    {
+        "id": 0,
+        "nom": "upgrade T1",
+        "effet": 1,
+        "type_objet": "Amelioration",
+        "prix": 10
+    },
+    {
+        "id": 1,
+        "nom": "upgrade T2",
+        "effet": 3,
+        "type_objet": "Amelioration",
+        "prix": 25
+    },
+    {
+        "id": 2,
+        "nom": "upgrade T3",
+        "effet": 5,
+        "type_objet": "Amelioration",
+        "prix": 45
+    },
+    {
+        "id": 3,
+        "nom": "upgrade T4",
+        "effet": 7,
+        "type_objet": "Amelioration",
+        "prix": 60
+    },
+    {
+        "id": 4,
+        "nom": "upgrade T5",
+        "effet": 10,
+        "type_objet": "Amelioration",
+        "prix": 100
+    },
+    {
+        "id": 5,
+        "nom": "carte d'accès",
+        "effet": 0,
+        "type_objet": "CarteAcces"
+    },
+    {
+        "id": 6,
+        "nom": "canette de soda",
+        "effet": 50,
+        "type_objet": "Nourriture",
+        "prix": 5
+        
+    },
+    {
+        "id": 7,
+        "nom": "sandwich au poulet",
+        "effet": 75,
+        "type_objet": "Nourriture",
+        "prix": 10
+
+    },
+    {
+        "id": 8,
+        "nom": "morphine",
+        "effet": 100,
+        "type_objet": "Nourriture",
+        "prix": 50
+    }
+]

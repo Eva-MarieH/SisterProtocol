@@ -1,0 +1,87 @@
+{
+    "computers":[
+        {
+            "name":"NOVA-7",
+            "id": 0
+        },
+        {
+            "name":"ECHO-404",
+            "id": 1
+        },
+        {
+            "name":"BlackICE Terminal",
+            "id": 2
+        },
+        {
+            "name":"XENON Core",
+            "id": 3
+        },
+        {
+            "name":"VIRUS//NEXUS",
+            "id": 4
+        },
+        {
+            "name":"Omega-Link 12",
+            "id": 5
+        },
+        {
+            "name":"DataPhantom",
+            "id": 6
+        },
+        {
+            "name":"Circuit-Ghost",
+            "id": 7
+        },
+        {
+            "name":"HyperNode-88",
+            "id": 8
+        },
+        {
+            "name":"GRID-9 Sentinel",
+            "id": 9
+        },
+        {
+            "name":"CryoByte Mainframe",
+            "id": 10
+        },
+        {
+            "name":"NeonHive",
+            "id": 11
+        },
+        {
+            "name":"EXO-99 Processor",
+            "id": 12
+        },
+        {
+            "name":"OverClock-X",
+            "id": 13
+        },
+        {
+            "name":"ShadowKernel",
+            "id": 14
+        },
+        {
+            "name":"Quantum-Vault",
+            "id": 15
+        }
+    ],
+    "servers":[
+        {
+            "name":"BlackFang-OS",
+            "id": 0
+        },
+        {
+            "name":"HELLGRID-99",
+            "id": 1
+        }
+        ,
+        {
+            "name":"VOID-SYSTEM",
+            "id" : 2
+        },
+        {
+            "name":"OmegaWrath-Core",
+            "id": 3
+        }
+    ]
+}
